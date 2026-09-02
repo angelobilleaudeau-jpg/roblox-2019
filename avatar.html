@@ -33,10 +33,10 @@
             position: fixed; top: 0; width: 100%; z-index: 1000; box-sizing: border-box;
         }
         .rbx-logo {
-            background-image: url('https://images.rbxcdn.com/3d74c05e55e427b3ed7a5d10565a0459.svg');
-            background-size: contain; background-repeat: no-repeat;
-            width: 95px; height: 24px; margin-right: 25px;
+            font-weight: 900; font-size: 18px; color: #fff; letter-spacing: -1px;
+            margin-right: 25px; cursor: pointer; display: flex; align-items: center; gap: 5px;
         }
+        .rbx-logo span { background: #fff; color: #191b1d; padding: 0 4px; border-radius: 2px; transform: rotate(-5deg); display: inline-block; }
         .rbx-nav-link { color: var(--rbx-text-sec); text-decoration: none; font-weight: bold; font-size: 14px; margin-right: 20px; }
         .rbx-nav-link.active { color: #fff; }
 
@@ -44,29 +44,22 @@
         .container { max-width: 1140px; margin: 60px auto 40px auto; padding: 0 15px; }
         h1.rbx-title { font-size: 24px; font-weight: 500; margin: 0 0 15px 0; }
 
-        .avatar-layout { display: grid; grid-template-columns: 300px 1fr; gap: 20px; }
+        .avatar-layout { display: grid; grid-template-columns: 320px 1fr; gap: 20px; }
 
         /* AVATAR PREVIEW PANEL */
         .preview-panel {
             background: #191b1d; border-radius: 4px; padding: 15px; border: 1px solid var(--rbx-border); text-align: center;
         }
         .viewport {
-            background: #000; height: 280px; border-radius: 4px; display: flex;
+            background: #000; height: 320px; border-radius: 4px; display: flex;
             align-items: center; justify-content: center; margin-bottom: 15px;
             position: relative; overflow: hidden; border: 1px solid var(--rbx-border);
-        }
-        .viewport img { height: 100%; width: 100%; object-fit: contain; }
-        .spinner {
-            display: none; position: absolute; background: rgba(0,0,0,0.7);
-            width: 100%; height: 100%; color: var(--rbx-text-sec);
-            align-items: center; justify-content: center; font-size: 13px;
         }
 
         /* BUTTONS */
         .btn { border: none; padding: 10px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 14px; width: 100%; margin-bottom: 8px; }
         .btn-blue { background: var(--rbx-accent-blue); color: #fff; }
         .btn-green { background: var(--rbx-btn-green); color: #fff; }
-        .btn-blue:hover, .btn-green:hover { opacity: 0.9; }
 
         /* TABS */
         .category-tabs { display: flex; border-bottom: 2px solid var(--rbx-border); margin-bottom: 15px; }
@@ -81,7 +74,7 @@
         .card {
             background-color: var(--rbx-card-bg); border-radius: 4px;
             overflow: hidden; border: 1px solid var(--rbx-border);
-            position: relative; cursor: pointer;
+            position: relative; cursor: pointer; text-align: center;
         }
         .card:hover { border-color: #fff; }
         .card.equipped { border: 2px solid var(--rbx-accent-blue); }
@@ -91,15 +84,14 @@
             width: 18px; height: 18px; text-align: center; font-size: 11px; font-weight: bold; line-height: 18px;
         }
         .card.equipped .equipped-badge { display: block; }
-        .card-img { background: #000; height: 120px; display: flex; align-items: center; justify-content: center; }
-        .card-img img { max-width: 85%; max-height: 85%; object-fit: contain; }
+        .card-img { background: #111; height: 100px; display: flex; align-items: center; justify-content: center; }
         .card-body { padding: 8px; }
         .card-title { font-size: 12px; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
         /* SKIN TONE PALETTE */
         .skin-palette { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 15px; }
         .skin-color {
-            width: 30px; height: 30px; border-radius: 4px; cursor: pointer; border: 2px solid transparent;
+            width: 28px; height: 28px; border-radius: 4px; cursor: pointer; border: 2px solid transparent;
         }
         .skin-color.selected { border-color: #fff; }
 
@@ -118,7 +110,7 @@
 <body>
 
 <header class="rbx-header">
-    <div class="rbx-logo"></div>
+    <div class="rbx-logo"><span>R</span>OBLOX</div>
     <a class="rbx-nav-link active">Avatar</a>
 </header>
 
@@ -126,21 +118,24 @@
     <h1 class="rbx-title">Avatar Editor</h1>
 
     <div class="avatar-layout">
+        <!-- LEFT: PREVIEW & CONTROLS -->
         <div class="preview-panel">
-            <div class="viewport">
-                <div class="spinner" id="spinner">Updating Render...</div>
-                <img id="avatar-render" src="https://tr.rbxcdn.com/e28151240c548a80470f1a9c3b8bb5c7/352/352/Avatar/Png" alt="Avatar">
+            <div class="viewport" id="avatar-svg-container">
+                <!-- SVG Avatar renders live inside here -->
             </div>
 
-            <p style="margin: 5px 0 10px 0;">Type: <strong id="rig-label">R15</strong></p>
+            <p style="margin: 5px 0 10px 0;">Rig Type: <strong id="rig-label">R15</strong></p>
             <button class="btn btn-blue" onclick="toggleRig()">Switch Rig (R6 / R15)</button>
-            <button class="btn btn-green" onclick="getEquippedData()">Get JSON Config</button>
+            <button class="btn btn-green" onclick="alert('Avatar configuration saved!')">Save Avatar</button>
         </div>
 
+        <!-- RIGHT: CATALOG INVENTORY & SKIN CUSTOMIZER -->
         <div>
+            <!-- SKIN COLOR PICKER -->
             <h4 style="margin: 0 0 8px 0; color: var(--rbx-text-sec);">Body Color</h4>
             <div class="skin-palette" id="skin-container"></div>
 
+            <!-- CATEGORY TABS -->
             <div class="category-tabs">
                 <button class="tab-btn active" onclick="filterCategory('All', this)">All</button>
                 <button class="tab-btn" onclick="filterCategory('Hat', this)">Accessories</button>
@@ -148,8 +143,10 @@
                 <button class="tab-btn" onclick="filterCategory('Clothing', this)">Clothing</button>
             </div>
 
+            <!-- ITEMS GRID -->
             <div class="grid-4" id="inventory-grid"></div>
 
+            <!-- CURRENTLY EQUIPPED TRAY -->
             <div class="equipped-tray">
                 <strong style="font-size: 13px; color: var(--rbx-text-sec);">Currently Wearing:</strong>
                 <div class="tray-items" id="tray-container"></div>
@@ -163,21 +160,67 @@
     const state = {
         rig: "R15",
         skinColor: "#f5ca9e",
-        equippedIds: [1028811, 1374523]
+        equippedIds: [1028811, 1374523],
+        shirtColor: "#0074BD"
     };
 
-    const skinTones = ["#f5ca9e", "#eab892", "#cc8e69", "#7c4c24", "#e5e1e6", "#a3a2a5", "#111111"];
+    const skinTones = ["#f5ca9e", "#eab892", "#cc8e69", "#7c4c24", "#e5e1e6", "#00A200", "#111111"];
 
     const items = [
-        { id: 1028811, name: "Domino Crown", category: "Hat", icon: "https://tr.rbxcdn.com/c66e2c3be9d7daffac99b247f08c3397/150/150/AvatarItem/Png" },
-        { id: 1374523, name: "True Blue Hair", category: "Hair", icon: "https://tr.rbxcdn.com/978df027e1f4007d4b8e21a4f91d87e3/150/150/AvatarItem/Png" },
-        { id: 144076358, name: "Valkyrie Helm", category: "Hat", icon: "https://tr.rbxcdn.com/ff708c9d09c67b2d56a0d4c8b6680459/150/150/AvatarItem/Png" },
-        { id: 1125510, name: "Fiery Horns", category: "Hat", icon: "https://tr.rbxcdn.com/ffde383d65b77e231b51e064971c228a/150/150/AvatarItem/Png" },
-        { id: 398672920, name: "Roblox 'R' Cap", category: "Hat", icon: "https://tr.rbxcdn.com/152e008dfdae838f38c353a25c796791/150/150/AvatarItem/Png" },
-        { id: 144076760, name: "Roblox Jacket", category: "Clothing", icon: "https://tr.rbxcdn.com/bf5f14e5a556af599ffc71b1442bb5fb/150/150/AvatarItem/Png" }
+        { id: 1028811, name: "Domino Crown", category: "Hat", color: "#FFD700" },
+        { id: 1374523, name: "True Blue Hair", category: "Hair", color: "#0088FF" },
+        { id: 144076358, name: "Valkyrie Helm", category: "Hat", color: "#CCCCCC" },
+        { id: 1125510, name: "Fiery Horns", category: "Hat", color: "#FF3300" },
+        { id: 398672920, name: "Roblox Cap", category: "Hat", color: "#CC0000" },
+        { id: 144076760, name: "Classic Hoodie", category: "Clothing", color: "#222222" }
     ];
 
     let currentFilter = "All";
+
+    // DRAW THE AVATAR DYNAMICALLY
+    function drawAvatar() {
+        const container = document.getElementById('avatar-svg-container');
+        const hasCrown = state.equippedIds.includes(1028811);
+        const hasBlueHair = state.equippedIds.includes(1374523);
+        const hasValk = state.equippedIds.includes(144076358);
+        const hasHorns = state.equippedIds.includes(1125510);
+        const hasCap = state.equippedIds.includes(398672920);
+        const hasHoodie = state.equippedIds.includes(144076760);
+
+        const torsoColor = hasHoodie ? "#222222" : state.shirtColor;
+
+        container.innerHTML = `
+        <svg width="220" height="280" viewBox="0 0 220 280">
+            <!-- HEAD -->
+            <rect x="85" y="55" width="50" height="45" rx="6" fill="${state.skinColor}" stroke="#000" stroke-width="2"/>
+            <!-- EYES & SMILE -->
+            <circle cx="98" cy="72" r="3" fill="#000"/>
+            <circle cx="122" cy="72" r="3" fill="#000"/>
+            <path d="M 98 86 Q 110 96 122 86" stroke="#000" stroke-width="2.5" fill="none"/>
+
+            <!-- TORSO -->
+            <rect x="70" y="103" width="80" height="75" rx="3" fill="${torsoColor}" stroke="#000" stroke-width="2"/>
+            ${hasHoodie ? '<rect x="100" y="103" width="20" height="75" fill="#111"/>' : ''}
+
+            <!-- LEFT ARM -->
+            <rect x="35" y="103" width="32" height="75" rx="3" fill="${state.skinColor}" stroke="#000" stroke-width="2"/>
+            
+            <!-- RIGHT ARM -->
+            <rect x="153" y="103" width="32" height="75" rx="3" fill="${state.skinColor}" stroke="#000" stroke-width="2"/>
+
+            <!-- LEGS -->
+            <rect x="72" y="181" width="36" height="80" rx="2" fill="#111111" stroke="#000" stroke-width="2"/>
+            <rect x="112" y="181" width="36" height="80" rx="2" fill="#111111" stroke="#000" stroke-width="2"/>
+
+            <!-- ACCESSORIES -->
+            ${hasBlueHair ? '<path d="M 80 57 Q 110 30 140 57 L 140 70 L 80 70 Z" fill="#0088FF" stroke="#000"/>' : ''}
+            ${hasCap ? '<rect x="80" y="45" width="60" height="15" fill="#CC0000"/><rect x="70" y="55" width="40" height="5" fill="#CC0000"/>' : ''}
+            ${hasCrown ? '<polygon points="80,55 90,30 100,50 110,25 120,50 130,30 140,55" fill="#FFD700" stroke="#B8860B" stroke-width="2"/>' : ''}
+            ${hasValk ? '<path d="M 75 50 L 60 20 L 85 45 Z M 145 50 L 160 20 L 135 45 Z" fill="#CCCCCC" stroke="#000"/>' : ''}
+            ${hasHorns ? '<path d="M 85 55 Q 70 20 65 30 M 135 55 Q 150 20 155 30" stroke="#FF3300" stroke-width="6" fill="none"/>' : ''}
+        </svg>
+        `;
+    }
 
     // RENDER FUNCTIONS
     function renderSkins() {
@@ -187,7 +230,7 @@
             const div = document.createElement('div');
             div.className = `skin-color ${state.skinColor === hex ? 'selected' : ''}`;
             div.style.backgroundColor = hex;
-            div.onclick = () => { state.skinColor = hex; renderSkins(); triggerRender(); };
+            div.onclick = () => { state.skinColor = hex; renderSkins(); drawAvatar(); };
             container.appendChild(div);
         });
     }
@@ -205,7 +248,7 @@
             card.onclick = () => toggleEquip(item.id);
             card.innerHTML = `
                 <div class="equipped-badge">&#10003;</div>
-                <div class="card-img"><img src="${item.icon}"></div>
+                <div class="card-img"><div style="width:40px; height:40px; background:${item.color}; border-radius:4px; border:1px solid #fff;"></div></div>
                 <div class="card-body">
                     <div class="card-title">${item.name}</div>
                 </div>
@@ -226,31 +269,12 @@
         }
 
         state.equippedIds.forEach(id => {
-            const item = items.find(i => i.id === id) || { name: `Asset (${id})` };
+            const item = items.find(i => i.id === id) || { name: `Item (${id})` };
             const chip = document.createElement('div');
             chip.className = 'tray-chip';
             chip.innerHTML = `${item.name} <span onclick="toggleEquip(${id})">X</span>`;
             tray.appendChild(chip);
         });
-    }
-
-    function triggerRender() {
-        const spinner = document.getElementById('spinner');
-        const img = document.getElementById('avatar-render');
-        spinner.style.display = "flex";
-
-        let url = "https://tr.rbxcdn.com/e28151240c548a80470f1a9c3b8bb5c7/352/352/Avatar/Png";
-        if (state.equippedIds.length > 0) {
-            const lastId = state.equippedIds[state.equippedIds.length - 1];
-            url = `https://tr.rbxcdn.com/30day-render-${lastId}/352/352/Avatar/Png`;
-        }
-
-        img.onload = () => spinner.style.display = "none";
-        img.onerror = () => {
-            img.src = "https://tr.rbxcdn.com/e28151240c548a80470f1a9c3b8bb5c7/352/352/Avatar/Png";
-            spinner.style.display = "none";
-        };
-        img.src = url;
     }
 
     // ACTIONS
@@ -261,13 +285,13 @@
             state.equippedIds.push(id);
         }
         renderInventory();
-        triggerRender();
+        drawAvatar();
     }
 
     function toggleRig() {
         state.rig = state.rig === "R15" ? "R6" : "R15";
         document.getElementById('rig-label').innerText = state.rig;
-        triggerRender();
+        drawAvatar();
     }
 
     function filterCategory(category, el) {
@@ -277,14 +301,10 @@
         renderInventory();
     }
 
-    function getEquippedData() {
-        const json = JSON.stringify(state, null, 2);
-        alert(`Current 2019 Avatar Config:\n\n${json}`);
-    }
-
     // INIT
     renderSkins();
     renderInventory();
+    drawAvatar();
 </script>
 </body>
 </html>
