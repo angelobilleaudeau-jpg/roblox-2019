@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2019 Roblox Revival Dashboard</title>
+    <style>
+        :root {
+            --bg-color: #191b1d;
+            --card-color: #232527;
+            --accent-color: #00a2ff;
+            --text-color: #ffffff;
+            --border-color: #393b3d;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        .status-badge {
+            background: #28a745;
+            color: #fff;
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 1.25rem;
+            color: var(--accent-color);
+        }
+
+        /* Avatar Preview Box */
+        .avatar-preview {
+            background: #111213;
+            border-radius: 6px;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .equipped-list {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        .equipped-list li {
+            background: #2c2f31;
+            padding: 6px 10px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Catalog Items Grid */
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 12px;
+        }
+
+        .item-card {
+            background: #111213;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .item-card h4 {
+            margin: 8px 0 4px 0;
+            font-size: 0.85rem;
+        }
+
+        .item-card span {
+            font-size: 0.75rem;
+            color: #aaa;
+        }
+
+        button {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 8px;
+            width: 100%;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        button.remove {
+            background: #dc3545;
+        }
+
+        /* Code display */
+        pre {
+            background: #000;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.85rem;
+            color: #00ff66;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>2019 Roblox Revival</h1>
+        <span class="status-badge">Web Ready</span>
+    </header>
+
+    <div class="grid">
+        <div>
+            <div class="card">
+                <h2>Avatar Preview</h2>
+                <div class="avatar-preview">
+                    <p><strong>User:</strong> <span id="username-display">Player1</span></p>
+                    <p><strong>Rig:</strong> <span id="rig-display">R15</span></p>
+                    <button onclick="toggleRig()">Switch to <span id="rig-toggle-text">R6</span></button>
+                </div>
+
+                <h3>Equipped Accessories</h3>
+                <ul class="equipped-list" id="equipped-tree">
+                    </ul>
+            </div>
+        </div>
+
+        <div>
+            <div class="card" style="margin-bottom: 20px;">
+                <h2>Accessory Shop</h2>
+                <div class="catalog-grid" id="catalog-container">
+                    </div>
+            </div>
+
+            <div class="card">
+                <h2>Game Launcher</h2>
+                <p>Select a place to generate your 2019 launch command:</p>
+                <button onclick="generateLaunchCommand()">Generate Launch Command</button>
+                <h3>Command Output:</h3>
+                <pre id="launch-cmd">Click above to generate target string...</pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- 1. STATE & DATABASE ---
+    const user = {
+        username: "Player1",
+        userId: 1,
+        avatarType: "R15",
+        equippedIds: [1028811, 1374523] // Default equipped item IDs
+    };
+
+    const catalog = [
+        { id: 1028811, name: "Domino Crown", category: "Hat" },
+        { id: 1374523, name: "Blue Hair", category: "Hair" },
+        { id: 144076358, name: "Valkyrie Helm", category: "Hat" },
+        { id: 144076760, name: "Classic Shirt", category: "Shirt" },
+        { id: 1125510, name: "Fiery Horns", category: "Hat" }
+    ];
+
+    // --- 2. RENDER FUNCTIONS ---
+    function renderAvatar() {
+        document.getElementById("rig-display").innerText = user.avatarType;
+        document.getElementById("rig-toggle-text").innerText = user.avatarType === "R15" ? "R6" : "R15";
+
+        const equippedTree = document.getElementById("equipped-tree");
+        equippedTree.innerHTML = "";
+
+        if (user.equippedIds.length === 0) {
+            equippedTree.innerHTML = "<li><em>No accessories equipped.</em></li>";
+            return;
+        }
+
+        user.equippedIds.forEach(id => {
+            const item = catalog.find(i => i.id === id) || { name: `Custom Asset (${id})`, category: "Item" };
+            const li = document.createElement("li");
+            li.innerHTML = `
+                <span>${item.name}</span>
+                <button class="remove" style="width: auto; padding: 2px 6px; font-size: 0.75rem;" onclick="unequipItem(${id})">X</button>
+            `;
+            equippedTree.appendChild(li);
+        });
+    }
+
+    function renderCatalog() {
+        const container = document.getElementById("catalog-container");
+        container.innerHTML = "";
+
+        catalog.forEach(item => {
+            const isEquipped = user.equippedIds.includes(item.id);
+            const card = document.createElement("div");
+            card.className = "item-card";
+            card.innerHTML = `
+                <h4>${item.name}</h4>
+                <span>${item.category}</span><br>
+                <span>ID: ${item.id}</span>
+                <button class="${isEquipped ? 'remove' : ''}" onclick="${isEquipped ? `unequipItem(${item.id})` : `equipItem(${item.id})`}">
+                    ${isEquipped ? 'Unequip' : 'Equip'}
+                </button>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    // --- 3. ACTIONS ---
+    function equipItem(id) {
+        if (!user.equippedIds.includes(id)) {
+            user.equippedIds.push(id);
+            renderAvatar();
+            renderCatalog();
+        }
+    }
+
+    function unequipItem(id) {
+        user.equippedIds = user.equippedIds.filter(item => item !== id);
+        renderAvatar();
+        renderCatalog();
+    }
+
+    function toggleRig() {
+        user.avatarType = user.avatarType === "R15" ? "R6" : "R15";
+        renderAvatar();
+    }
+
+    function generateLaunchCommand() {
+        const assetParams = user.equippedIds.join(",");
+        const cmd = `RobloxPlayerBeta.exe -t 1 -j "http://localhost/game/join.ashx?placeId=1818&userId=${user.userId}&rig=${user.avatarType}&assets=${assetParams}"`;
+        document.getElementById("launch-cmd").innerText = cmd;
+    }
+
+    // Initialize UI
+    renderAvatar();
+    renderCatalog();
+</script>
+
+</body>
+</html>
