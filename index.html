@@ -16,8 +16,10 @@
             --rbx-border: #121314;
         }
 
+        * { box-sizing: border-box; }
+
         body {
-            font-family: "Gotham", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
             background-color: var(--rbx-bg);
             color: var(--rbx-text-main);
             margin: 0; padding: 0;
@@ -29,7 +31,7 @@
             background-color: var(--rbx-header-bg);
             height: 40px; display: flex; align-items: center;
             padding: 0 16px; border-bottom: 1px solid var(--rbx-border);
-            position: fixed; top: 0; width: 100%; z-index: 1000; box-sizing: border-box;
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
         }
         
         /* 2019 Tilted Red Box Logo for MTB */
@@ -60,7 +62,13 @@
         }
         .rbx-nav-link:hover, .rbx-nav-link.active { color: #fff; border-bottom-color: #fff; }
 
-        .container { max-width: 1140px; margin: 55px auto 40px auto; padding: 0 15px; }
+        .container { max-width: 1140px; margin: 60px auto 40px auto; padding: 0 15px; }
 
         /* USER WELCOME BANNER */
-        .user-header { display: flex; align-items: center; gap:
+        .user-header { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; }
+        .user-headshot {
+            width: 64px; height: 64px; border-radius: 50%; background: #191b1d;
+            border: 2px solid var(--rbx-border); overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .user-title { font-size: 28px; font-weight: 700; margin:
