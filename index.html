@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roblox 2019 Revival Hub</title>
-    <link rel="icon" type="image/png" href="https://images.rbxcdn.com/23421379374092b378b273b4d455d31b.png.ico" />
+    <title>Home - MTB</title>
     <style>
-        /* --- Authentic 2019 Roblox Dark Theme --- */
         :root {
             --rbx-bg: #232527;
             --rbx-header-bg: #191b1d;
@@ -19,244 +17,50 @@
         }
 
         body {
-            font-family: "HCo Gotham SSm", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-family: "Gotham", "Helvetica Neue", Helvetica, Arial, sans-serif;
             background-color: var(--rbx-bg);
             color: var(--rbx-text-main);
             margin: 0; padding: 0;
-            font-size: 15px;
+            font-size: 14px;
         }
 
-        /* --- NAVIGATION --- */
+        /* 2019 HEADER NAVBAR */
         header.rbx-header {
             background-color: var(--rbx-header-bg);
             height: 40px; display: flex; align-items: center;
             padding: 0 16px; border-bottom: 1px solid var(--rbx-border);
-            position: fixed; top: 0; width: 100%; z-index: 1000;
-            box-sizing: border-box;
+            position: fixed; top: 0; width: 100%; z-index: 1000; box-sizing: border-box;
         }
+        
+        /* 2019 Tilted Red Box Logo for MTB */
         .rbx-logo {
-            background-image: url('https://images.rbxcdn.com/3d74c05e55e427b3ed7a5d10565a0459.svg');
-            background-size: contain; background-repeat: no-repeat;
-            width: 95px; height: 24px; margin-right: 25px; cursor: pointer;
+            font-weight: 900; font-size: 20px; color: #fff; letter-spacing: -1px;
+            margin-right: 25px; display: flex; align-items: center; gap: 3px;
+            text-transform: uppercase; user-select: none; text-decoration: none;
         }
+        .rbx-logo .tilted-o {
+            background: #E2231A; color: #191b1d; 
+            width: 17px; height: 17px;
+            border-radius: 3px;
+            transform: rotate(-10deg); 
+            display: inline-flex; align-items: center; justify-content: center;
+            margin: 0 1px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        .rbx-logo .tilted-o::after {
+            content: ""; width: 5px; height: 5px;
+            background-color: #191b1d; border-radius: 1px;
+        }
+
+        .rbx-nav { display: flex; gap: 15px; }
         .rbx-nav-link {
             color: var(--rbx-text-sec); text-decoration: none; font-weight: bold;
-            font-size: 14px; margin-right: 20px; cursor: pointer; padding: 10px 0;
-            border-bottom: 3px solid transparent;
+            font-size: 14px; padding: 10px 0; border-bottom: 3px solid transparent;
         }
-        .rbx-nav-link.active { color: #fff; border-bottom-color: #fff; }
+        .rbx-nav-link:hover, .rbx-nav-link.active { color: #fff; border-bottom-color: #fff; }
 
-        /* --- CONTAINER --- */
-        .container { max-width: 1140px; margin: 60px auto 40px auto; padding: 0 15px; }
-        .page-section { display: none; }
-        .page-section.active { display: block; }
+        .container { max-width: 1140px; margin: 55px auto 40px auto; padding: 0 15px; }
 
-        h1.rbx-title { font-size: 24px; font-weight: 500; margin: 0 0 15px 0; color: #fff; }
-
-        /* --- AVATAR EDITOR & PREVIEW --- */
-        .avatar-layout { display: grid; grid-template-columns: 280px 1fr; gap: 20px; }
-        .avatar-preview-box {
-            background: #191b1d; border-radius: 4px; padding: 15px; text-align: center; border: 1px solid var(--rbx-border);
-        }
-        .avatar-img-view {
-            background: #000; height: 260px; border-radius: 4px; display: flex;
-            align-items: center; justify-content: center; margin-bottom: 15px;
-            position: relative; overflow: hidden; border: 1px solid #121314;
-        }
-        .avatar-img-view img { height: 100%; width: 100%; object-fit: contain; }
-        
-        .loading-spinner {
-            display: none; position: absolute; color: var(--rbx-text-sec); font-size: 13px;
-            background: rgba(0,0,0,0.7); width: 100%; height: 100%;
-            align-items: center; justify-content: center;
-        }
-
-        /* --- ITEM CARDS --- */
-        .grid-4 { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; }
-        .card {
-            background-color: var(--rbx-card-bg); border-radius: 4px;
-            overflow: hidden; border: 1px solid var(--rbx-border);
-            position: relative; cursor: pointer;
-        }
-        .card:hover { border-color: #fff; }
-        .card.equipped { border: 2px solid var(--rbx-accent-blue); }
-        .equipped-badge {
-            display: none; position: absolute; top: 6px; right: 6px;
-            background: var(--rbx-accent-blue); color: #fff; border-radius: 50%;
-            width: 20px; height: 20px; text-align: center; font-size: 12px; font-weight: bold; line-height: 20px;
-        }
-        .card.equipped .equipped-badge { display: block; }
-
-        .card-img { background-color: #000; width: 100%; height: 140px; display: flex; align-items: center; justify-content: center; }
-        .card-img img { max-width: 90%; max-height: 90%; object-fit: contain; }
-        .card-body { padding: 10px; }
-        .card-title { font-size: 13px; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .card-subtitle { font-size: 11px; color: var(--rbx-text-sec); margin-top: 2px; }
-
-        /* --- BUTTONS & MODAL --- */
-        .btn { border: none; padding: 8px 16px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 14px; }
-        .btn-blue { background-color: var(--rbx-accent-blue); color: white; }
-        .btn-green { background-color: var(--rbx-btn-green); color: white; }
-        
-        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center; }
-        .modal { background: #191b1d; border-radius: 4px; width: 480px; padding: 20px; border: 1px solid var(--rbx-border); }
-        pre.code-box { background: #000; border: 1px solid #00ff66; color: #00ff66; padding: 10px; font-family: monospace; font-size: 12px; word-wrap: break-word; white-space: pre-wrap; }
-    </style>
-</head>
-<body>
-
-<header class="rbx-header">
-    <div class="rbx-logo" onclick="switchTab('avatar')"></div>
-    <a class="rbx-nav-link active" id="nav-avatar" onclick="switchTab('avatar')">Avatar</a>
-    <a class="rbx-nav-link" id="nav-catalog" onclick="switchTab('catalog')">Catalog</a>
-</header>
-
-<div class="container">
-
-    <section id="page-avatar" class="page-section active">
-        <h1 class="rbx-title">Avatar Editor</h1>
-        <div class="avatar-layout">
-            
-            <!-- LEFT PANEL: DYNAMIC AVATAR DISPLAY -->
-            <div class="avatar-preview-box">
-                <div class="avatar-img-view">
-                    <div class="loading-spinner" id="avatar-loading">Rendering...</div>
-                    <!-- Live Avatar Render Image -->
-                    <img id="avatar-render-img" src="" alt="Avatar Render">
-                </div>
-                <p>Rig Type: <strong id="rig-display">R15</strong></p>
-                <button class="btn btn-blue" style="width: 100%; margin-bottom: 8px;" onclick="toggleRig()">Switch Rig</button>
-                <button class="btn btn-green" style="width: 100%;" onclick="openLaunchModal()">Launch Client</button>
-            </div>
-
-            <!-- RIGHT PANEL: ACCESSORIES INVENTORY -->
-            <div>
-                <h3 style="margin-top:0;">Equip Accessories</h3>
-                <div class="grid-4" id="avatar-inventory-grid"></div>
-            </div>
-
-        </div>
-    </section>
-
-    <section id="page-catalog" class="page-section">
-        <h1 class="rbx-title">Catalog</h1>
-        <div class="grid-4" id="catalog-shop-grid"></div>
-    </section>
-
-</div>
-
-<div class="overlay" id="launch-modal">
-    <div class="modal">
-        <h3 style="margin-top:0;">2019 Client Execution Command</h3>
-        <pre class="code-box" id="cmd-box"></pre>
-        <button class="btn btn-blue" style="width: 100%;" onclick="closeModal()">Close</button>
-    </div>
-</div>
-
-<script>
-    // --- STATE ---
-    const state = {
-        userId: 1,
-        rig: "R15",
-        // Preset combinations for direct 3D Roblox API rendering preview
-        equippedIds: [1028811, 1374523]
-    };
-
-    const items = [
-        { id: 1028811, name: "Domino Crown", category: "Hat", icon: "https://tr.rbxcdn.com/c66e2c3be9d7daffac99b247f08c3397/150/150/AvatarItem/Png" },
-        { id: 1374523, name: "True Blue Hair", category: "Hair", icon: "https://tr.rbxcdn.com/978df027e1f4007d4b8e21a4f91d87e3/150/150/AvatarItem/Png" },
-        { id: 144076358, name: "Valkyrie Helm", category: "Hat", icon: "https://tr.rbxcdn.com/ff708c9d09c67b2d56a0d4c8b6680459/150/150/AvatarItem/Png" },
-        { id: 1125510, name: "Fiery Horns", category: "Hat", icon: "https://tr.rbxcdn.com/ffde383d65b77e231b51e064971c228a/150/150/AvatarItem/Png" },
-        { id: 398672920, name: "Roblox 'R' Baseball Cap", category: "Hat", icon: "https://tr.rbxcdn.com/152e008dfdae838f38c353a25c796791/150/150/AvatarItem/Png" }
-    ];
-
-    // Map combinations to live avatar preview renders
-    function updateAvatarImage() {
-        const loading = document.getElementById('avatar-loading');
-        const img = document.getElementById('avatar-render-img');
-        
-        loading.style.display = 'flex';
-
-        // Using Roblox official render API endpoint for dynamic avatar display
-        // Default base character render or dynamic asset parameter fallback
-        let renderUrl = "https://tr.rbxcdn.com/e28151240c548a80470f1a9c3b8bb5c7/352/352/Avatar/Png";
-
-        // Show individual item avatar preview if single item selected
-        if (state.equippedIds.length > 0) {
-            const primaryAssetId = state.equippedIds[state.equippedIds.length - 1];
-            renderUrl = `https://tr.rbxcdn.com/30day-render-${primaryAssetId}/352/352/Avatar/Png`;
-        }
-
-        // Image load handler
-        img.onload = () => { loading.style.display = 'none'; };
-        img.onerror = () => {
-            // Fallback render image if CDN render hash is pending
-            img.src = "https://tr.rbxcdn.com/e28151240c548a80470f1a9c3b8bb5c7/352/352/Avatar/Png";
-            loading.style.display = 'none';
-        };
-
-        img.src = renderUrl;
-    }
-
-    // --- INTERACTION ---
-    function toggleEquip(id) {
-        if (state.equippedIds.includes(id)) {
-            state.equippedIds = state.equippedIds.filter(i => i !== id);
-        } else {
-            state.equippedIds.push(id);
-        }
-        renderInventory();
-        updateAvatarImage();
-    }
-
-    function toggleRig() {
-        state.rig = state.rig === "R15" ? "R6" : "R15";
-        document.getElementById('rig-display').innerText = state.rig;
-        updateAvatarImage();
-    }
-
-    function renderInventory() {
-        const grid = document.getElementById('avatar-inventory-grid');
-        grid.innerHTML = "";
-
-        items.forEach(item => {
-            const isEquipped = state.equippedIds.includes(item.id);
-            const card = document.createElement('div');
-            card.className = `card ${isEquipped ? 'equipped' : ''}`;
-            card.onclick = () => toggleEquip(item.id);
-            card.innerHTML = `
-                <div class="equipped-badge">&#10003;</div>
-                <div class="card-img"><img src="${item.icon}"></div>
-                <div class="card-body">
-                    <div class="card-title">${item.name}</div>
-                    <div class="card-subtitle">${item.category}</div>
-                </div>
-            `;
-            grid.appendChild(card);
-        });
-    }
-
-    function switchTab(tabName) {
-        document.querySelectorAll('.rbx-nav-link').forEach(l => l.classList.remove('active'));
-        document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
-        document.getElementById(`nav-${tabName}`).classList.add('active');
-        document.getElementById(`page-${tabName}`).classList.add('active');
-    }
-
-    function openLaunchModal() {
-        const cmd = `RobloxPlayerBeta.exe -t 1 -j "http://localhost/game/join.ashx?placeId=1818&userId=1&rig=${state.rig}&assets=${state.equippedIds.join(",")}"`;
-        document.getElementById('cmd-box').innerText = cmd;
-        document.getElementById('launch-modal').style.display = 'flex';
-    }
-
-    function closeModal() {
-        document.getElementById('launch-modal').style.display = 'none';
-    }
-
-    // Initialize
-    renderInventory();
-    updateAvatarImage();
-</script>
-
-</body>
-</html>
+        /* USER WELCOME BANNER */
+        .user-header { display: flex; align-items: center; gap:
