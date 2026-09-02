@@ -3,313 +3,351 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Avatar Editor - Roblox 2019 Revival</title>
-    <!-- Favicon links (Standard Roblox icon) -->
+    <title>Roblox 2019 Revival Hub</title>
     <link rel="icon" type="image/png" href="https://images.rbxcdn.com/23421379374092b378b273b4d455d31b.png.ico" />
     <style>
-        /* --- Authentic Roblox 2019 Dark Theme CSS --- */
+        /* --- Authentic 2019 Roblox Dark Theme --- */
         :root {
-            --rbx-bg: #232527;              /* Main Background */
-            --rbx-header-bg: #191b1d;      /* Header/Nav Background */
-            --rbx-card-bg: #393b3d;        /* Unselected Item Card */
-            --rbx-card-selected: #FFFFFF;  /* Selected Item Card (white bg) */
-            --rbx-accent-blue: #0074BD;     /* Main Roblox Blue */
+            --rbx-bg: #232527;
+            --rbx-header-bg: #191b1d;
+            --rbx-card-bg: #393b3d;
+            --rbx-card-selected: #FFFFFF;
+            --rbx-accent-blue: #0074BD;
+            --rbx-btn-green: #00A200;
             --rbx-text-main: #FFFFFF;
-            --rbx-text-sec: #B8B8B8;       /* Secondary/Subtitle Text */
+            --rbx-text-sec: #B8B8B8;
             --rbx-border: #121314;
         }
 
         body {
-            font-family: "HCo Gotham SSm", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+            font-family: "HCo Gotham SSm", "Helvetica Neue", Helvetica, Arial, sans-serif;
             background-color: var(--rbx-bg);
             color: var(--rbx-text-main);
-            margin: 0;
-            padding: 0;
-            font-size: 16px;
+            margin: 0; padding: 0;
+            font-size: 15px;
         }
 
-        /* --- GLOBAL NAVIGATION --- */
+        /* --- TOP GLOBAL NAVIGATION --- */
         header.rbx-header {
             background-color: var(--rbx-header-bg);
-            height: 40px;
-            display: flex;
-            align-items: center;
-            padding: 0 16px;
-            border-bottom: 1px solid var(--rbx-border);
-            position: fixed;
-            top: 0; width: 100%; z-index: 1000;
+            height: 40px; display: flex; align-items: center;
+            padding: 0 16px; border-bottom: 1px solid var(--rbx-border);
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            box-sizing: border-box;
         }
         .rbx-logo {
-            background-image: url('https://images.rbxcdn.com/3d74c05e55e427b3ed7a5d10565a0459.svg'); /* 2019 Logo */
-            background-size: contain;
-            background-repeat: no-repeat;
-            width: 100px; height: 26px;
-            margin-right: 20px;
+            background-image: url('https://images.rbxcdn.com/3d74c05e55e427b3ed7a5d10565a0459.svg');
+            background-size: contain; background-repeat: no-repeat;
+            width: 95px; height: 24px; margin-right: 25px; cursor: pointer;
         }
-        .rbx-nav-link { color: #fff; text-decoration: none; font-weight: 500; font-size: 15px; margin-right: 15px;}
-        .rbx-nav-link:hover { color: var(--rbx-accent-blue); }
+        .rbx-nav-link {
+            color: var(--rbx-text-sec); text-decoration: none; font-weight: bold;
+            font-size: 14px; margin-right: 20px; cursor: pointer; padding: 10px 0;
+            border-bottom: 3px solid transparent; transition: color 0.15s;
+        }
+        .rbx-nav-link:hover { color: #fff; }
+        .rbx-nav-link.active { color: #fff; border-bottom-color: #fff; }
 
         /* --- MAIN CONTAINER --- */
         .container {
-            max-width: 1140px; margin: 60px auto 40px auto; /* Push down for fixed header */
-            display: grid; grid-template-columns: 280px 1fr; gap: 20px;
+            max-width: 1140px; margin: 60px auto 40px auto; padding: 0 15px;
         }
 
-        /* --- LEFT SIDE: AVATAR PREVIEW --- */
-        .avatar-panel {
-            background-color: #191b1d;
-            border-radius: 4px; padding: 15px;
-            text-align: center; border: 1px solid var(--rbx-border);
+        /* --- PAGE SECTIONS --- */
+        .page-section { display: none; }
+        .page-section.active { display: block; }
+
+        h1.rbx-title { font-size: 24px; font-weight: 500; margin: 0 0 15px 0; color: #fff;}
+
+        /* --- UI CARDS & GRIDS --- */
+        .grid-4 {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px;
         }
-        .avatar-image-container {
-            background-color: #000;
-            border-radius: 4px; width: 100%; height: 250px;
+        .card {
+            background-color: var(--rbx-card-bg); border-radius: 4px;
+            overflow: hidden; border: 1px solid var(--rbx-border);
+            position: relative; transition: transform 0.1s, border-color 0.1s;
+        }
+        .card:hover { border-color: #fff; }
+
+        .card-img {
+            background-color: #000; width: 100%; height: 150px;
             display: flex; align-items: center; justify-content: center;
-            overflow: hidden; margin-bottom: 15px; border: 1px solid #000;
         }
-        .avatar-image-container img {
-            height: 100%; object-fit: contain;
-        }
-        .rbx-btn-blue {
-            background-color: var(--rbx-accent-blue);
-            color: white; border: none; padding: 10px 20px;
-            border-radius: 4px; font-weight: bold; cursor: pointer;
-            width: 100%; font-size: 16px;
-        }
-        .rbx-btn-blue:hover { opacity: 0.9; }
+        .card-img img { max-width: 90%; max-height: 90%; object-fit: contain; }
 
-        /* --- RIGHT SIDE: AVATAR EDITOR CONTENT --- */
-        h1.rbx-title { font-size: 26px; font-weight: 400; margin: 0 0 10px 0; color: #fff;}
-        
-        .tab-container {
-            display: flex; border-bottom: 2px solid var(--rbx-border); margin-bottom: 20px;
-        }
-        .tab {
-            padding: 10px 20px; color: var(--rbx-text-sec); cursor: pointer;
-            border-bottom: 3px solid transparent; font-weight: bold;
-        }
-        .tab.active {
-            color: #fff; border-bottom: 3px solid #fff;
-        }
+        .card-body { padding: 10px; }
+        .card-title { font-size: 13px; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .card-subtitle { font-size: 11px; color: var(--rbx-text-sec); margin-top: 2px; }
+        .card-price { color: #00a200; font-weight: bold; font-size: 12px; margin-top: 5px; }
 
-        /* Inventory Grid */
-        .catalog-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 15px;
+        /* --- BUTTONS --- */
+        .btn {
+            border: none; padding: 8px 16px; border-radius: 4px;
+            font-weight: bold; cursor: pointer; font-size: 14px;
         }
-        .item-card {
-            background-color: var(--rbx-card-bg);
-            border-radius: 4px; overflow: hidden;
-            border: 2px solid transparent; cursor: pointer;
-            transition: border 0.1s; position: relative;
-        }
-        .item-card:hover { border-color: #fff; }
-        .item-card.selected {
-            background-color: var(--rbx-card-selected);
-            border-color: #fff;
-        }
-        .item-card.selected .item-name { color: #000; }
-        .item-card.selected .item-category { color: #888; }
+        .btn-blue { background-color: var(--rbx-accent-blue); color: white; }
+        .btn-green { background-color: var(--rbx-btn-green); color: white; }
+        .btn-blue:hover, .btn-green:hover { opacity: 0.9; }
 
-        .item-image-wrapper {
-            background-color: #000;
-            width: 100%; height: 140px; display: flex; align-items: center; justify-content: center;
+        /* --- AVATAR EDITOR SPECIFIC --- */
+        .avatar-layout { display: grid; grid-template-columns: 260px 1fr; gap: 20px; }
+        .avatar-preview-box {
+            background: #191b1d; border-radius: 4px; padding: 15px; text-align: center; border: 1px solid var(--rbx-border);
         }
-        .item-image-wrapper img { max-width: 90%; max-height: 90%; object-fit: contain; }
-
-        .item-details { padding: 8px; }
-        .item-name { font-size: 13px; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
-        .item-category { font-size: 11px; color: var(--rbx-text-sec); text-transform: uppercase; }
-
-        /* Icon overlays for equipped state */
-        .item-equipped-icon {
-            display: none; position: absolute; top: 5px; right: 5px;
-            background-color: var(--rbx-accent-blue); color: white;
-            border-radius: 50%; width: 22px; height: 22px;
-            font-size: 16px; font-weight: bold; text-align: center; line-height: 22px;
+        .avatar-img-view {
+            background: #000; height: 240px; border-radius: 4px; display: flex;
+            align-items: center; justify-content: center; margin-bottom: 15px;
         }
-        .item-card.equipped .item-equipped-icon { display: block; }
-        .item-card.equipped { border-color: var(--rbx-accent-blue); }
+        .avatar-img-view img { height: 90%; object-fit: contain; }
 
-        /* --- Modals/Overlays --- */
+        /* Equipped Badge */
+        .card.equipped { border: 2px solid var(--rbx-accent-blue); }
+        .equipped-badge {
+            display: none; position: absolute; top: 6px; right: 6px;
+            background: var(--rbx-accent-blue); color: #fff; border-radius: 50%;
+            width: 20px; height: 20px; text-align: center; font-size: 12px; font-weight: bold; line-height: 20px;
+        }
+        .card.equipped .equipped-badge { display: block; }
+
+        /* --- FRIENDS LIST SPECIFIC --- */
+        .status-dot {
+            width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 5px;
+        }
+        .status-online { background-color: #28a745; }
+        .status-in-game { background-color: #0074BD; }
+        .status-offline { background-color: #6c757d; }
+
+        /* --- CREATE / DEVELOP SPECIFIC --- */
+        .develop-table {
+            width: 100%; border-collapse: collapse; background: #191b1d; border-radius: 4px; overflow: hidden;
+        }
+        .develop-table th, .develop-table td {
+            padding: 12px 15px; text-align: left; border-bottom: 1px solid var(--rbx-border);
+        }
+        .develop-table th { background: #111213; color: var(--rbx-text-sec); font-size: 12px; text-transform: uppercase; }
+
+        /* --- MODAL --- */
         .overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center;
+            background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center;
         }
-        .rbx-modal {
-            background-color: #191b1d; border-radius: 4px; width: 500px;
-            border: 1px solid var(--rbx-border); overflow: hidden;
+        .modal {
+            background: #191b1d; border-radius: 4px; width: 480px; padding: 20px; border: 1px solid var(--rbx-border);
         }
-        .rbx-modal-header {
-            padding: 15px; border-bottom: 1px solid var(--rbx-border);
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .rbx-modal-header h3 { margin: 0; font-size: 18px;}
-        .close-btn { color: #fff; cursor: pointer; font-size: 20px; font-weight: bold; background: none; border: none;}
-        .rbx-modal-body { padding: 20px; text-align: center; }
-        
-        pre.cmd-box {
-            background-color: #000; border: 1px solid #00ff66; color: #00ff66;
-            padding: 15px; border-radius: 4px; font-family: monospace; font-size: 13px;
-            word-wrap: break-word; white-space: pre-wrap; text-align: left;
+        pre.code-box {
+            background: #000; border: 1px solid #00ff66; color: #00ff66;
+            padding: 10px; font-family: monospace; font-size: 12px; word-wrap: break-word; white-space: pre-wrap;
         }
     </style>
 </head>
 <body>
 
-<!-- GLOBAL NAVIGATION (Roblox 2019 Style) -->
+<!-- TOP GLOBAL NAVIGATION -->
 <header class="rbx-header">
-    <div class="rbx-logo"></div>
-    <a href="#" class="rbx-nav-link">Games</a>
-    <a href="#" class="rbx-nav-link active">Avatar</a>
-    <a href="#" class="rbx-nav-link">Develop</a>
-    <a href="#" class="rbx-nav-link">Catalog</a>
+    <div class="rbx-logo" onclick="switchTab('avatar')"></div>
+    <a class="rbx-nav-link active" id="nav-avatar" onclick="switchTab('avatar')">Avatar</a>
+    <a class="rbx-nav-link" id="nav-catalog" onclick="switchTab('catalog')">Catalog</a>
+    <a class="rbx-nav-link" id="nav-friends" onclick="switchTab('friends')">Friends</a>
+    <a class="rbx-nav-link" id="nav-create" onclick="switchTab('create')">Create</a>
 </header>
 
 <div class="container">
-    
-    <!-- LEFT PANEL: AVATAR PREVIEW -->
-    <aside class="avatar-panel">
-        <div class="avatar-image-container">
-            <!-- 2019 Default R15 Character Thumbnail -->
-            <img src="https://tr.rbxcdn.com/e28151240c548a80470f1a9c3b8bb5c7/352/352/Avatar/Png" id="avatar-img-view" alt="Avatar">
-        </div>
-        <p>Currently Wearing: <strong id="rig-display">R15</strong></p>
-        <p style="font-size: 14px; color: var(--rbx-text-sec)">Skin: <span style="display:inline-block; width: 14px; height: 14px; background:#f5ca9e; border:1px solid #fff; vertical-align:middle; border-radius:2px;"></span> Medium Stone Grey</p>
-        <button class="rbx-btn-blue" style="margin-bottom: 10px;" onclick="toggleRig()">Switch to <span id="rig-toggle-text">R6</span></button>
-        <button class="rbx-btn-blue" onclick="openLaunchModal()">Launch Client</button>
-    </aside>
 
-    <!-- RIGHT PANEL: EDITOR CONTENT -->
-    <main>
+    <!-- 1. AVATAR EDITOR PAGE -->
+    <section id="page-avatar" class="page-section active">
         <h1 class="rbx-title">Avatar Editor</h1>
-        
-        <div class="tab-container">
-            <div class="tab active">Accessories</div>
-            <div class="tab">Body</div>
-            <div class="tab">Clothing</div>
-            <div class="tab">Animations</div>
-        </div>
+        <div class="avatar-layout">
+            <div class="avatar-preview-box">
+                <div class="avatar-img-view">
+                    <img src="https://tr.rbxcdn.com/e28151240c548a80470f1a9c3b8bb5c7/352/352/Avatar/Png" id="avatar-preview-img" alt="Avatar">
+                </div>
+                <p>Rig Type: <strong id="rig-display">R15</strong></p>
+                <button class="btn btn-blue" style="width: 100%; margin-bottom: 8px;" onclick="toggleRig()">Switch Rig</button>
+                <button class="btn btn-green" style="width: 100%;" onclick="openLaunchModal()">Launch Client</button>
+            </div>
 
-        <!-- Inventory Grid -->
-        <div class="catalog-grid" id="catalog-container">
-            <!-- Items are generated here dynamically -->
+            <div>
+                <h3 style="margin-top:0;">Your Wardrobe</h3>
+                <div class="grid-4" id="avatar-inventory-grid"></div>
+            </div>
         </div>
-    </main>
+    </section>
+
+    <!-- 2. CATALOG (SHOP) PAGE -->
+    <section id="page-catalog" class="page-section">
+        <h1 class="rbx-title">Catalog</h1>
+        <div class="grid-4" id="catalog-shop-grid"></div>
+    </section>
+
+    <!-- 3. FRIENDS PAGE -->
+    <section id="page-friends" class="page-section">
+        <h1 class="rbx-title">Friends (9)</h1>
+        <div class="grid-4" id="friends-list-grid"></div>
+    </section>
+
+    <!-- 4. CREATE / DEVELOP PAGE -->
+    <section id="page-create" class="page-section">
+        <h1 class="rbx-title">Develop Places</h1>
+        <table class="develop-table">
+            <thead>
+                <tr>
+                    <th>Place Name</th>
+                    <th>Place ID</th>
+                    <th>Max Players</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Crossroads (2019 Revival)</strong></td>
+                    <td>1818</td>
+                    <td>10</td>
+                    <td><button class="btn btn-green" onclick="openLaunchModal(1818)">Start Server</button></td>
+                </tr>
+                <tr>
+                    <td><strong>Baseplate Place</strong></td>
+                    <td>1001</td>
+                    <td>12</td>
+                    <td><button class="btn btn-green" onclick="openLaunchModal(1001)">Start Server</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
 </div>
 
-<!-- LANUCH CLIENT MODAL (2019 Prompt Style) -->
-<div class="overlay" id="launch-overlay">
-    <div class="rbx-modal">
-        <div class="rbx-modal-header">
-            <h3>Launch 2019 Revival Client</h3>
-            <button class="close-btn" onclick="closeModal()">X</button>
-        </div>
-        <div class="rbx-modal-body">
-            <p style="margin-top: 0;">Copy the following command into Command Prompt to launch the game server:</p>
-            <pre class="cmd-box" id="launch-cmd-box"></pre>
-            <p style="font-size: 13px; color: var(--rbx-text-sec);">Requires RobloxPlayerBeta.exe (2019 Build) on your system.</p>
-        </div>
+<!-- LAUNCHER MODAL -->
+<div class="overlay" id="launch-modal">
+    <div class="modal">
+        <h3 style="margin-top:0;">2019 Client Execution Command</h3>
+        <p style="font-size: 13px; color: var(--rbx-text-sec);">Copy this command into CMD or run with your 2019 executable:</p>
+        <pre class="code-box" id="cmd-box"></pre>
+        <button class="btn btn-blue" style="width: 100%;" onclick="closeModal()">Close</button>
     </div>
 </div>
 
 <script>
-    // --- 1. STATE & ITEM DATABASE ---
-    const user = {
-        userId: 1,
+    // --- 1. STATE MANAGEMENT ---
+    const state = {
         rig: "R15",
-        equippedIds: [1028811, 1374523] // Domino Crown & Blue Hair default
+        equippedIds: [1028811, 1374523]
     };
 
-    // Authentic 2019 Asset Icons hosted on Roblox CDN
-    const inventory = [
-        { id: 1028811, name: "Domino Crown", category: "Hat", icon: "https://tr.rbxcdn.com/c66e2c3be9d7daffac99b247f08c3397/150/150/AvatarItem/Png" },
-        { id: 1374523, name: "True Blue Hair", category: "Hair", icon: "https://tr.rbxcdn.com/978df027e1f4007d4b8e21a4f91d87e3/150/150/AvatarItem/Png" },
-        { id: 144076358, name: "Valkyrie Helm", category: "Hat", icon: "https://tr.rbxcdn.com/ff708c9d09c67b2d56a0d4c8b6680459/150/150/AvatarItem/Png" },
-        { id: 1125510, name: "Fiery Horns", category: "Hat", icon: "https://tr.rbxcdn.com/ffde383d65b77e231b51e064971c228a/150/150/AvatarItem/Png" },
-        { id: 398672920, name: "Roblox 'R' Baseball Cap", category: "Hat", icon: "https://tr.rbxcdn.com/152e008dfdae838f38c353a25c796791/150/150/AvatarItem/Png" },
-        { id: 144076760, name: "Roblox Shirt", category: "Shirt", icon: "https://tr.rbxcdn.com/bf5f14e5a556af599ffc71b1442bb5fb/150/150/AvatarItem/Png" }
+    const items = [
+        { id: 1028811, name: "Domino Crown", category: "Hat", price: "R$ 50,000", icon: "https://tr.rbxcdn.com/c66e2c3be9d7daffac99b247f08c3397/150/150/AvatarItem/Png" },
+        { id: 1374523, name: "True Blue Hair", category: "Hair", price: "R$ 95", icon: "https://tr.rbxcdn.com/978df027e1f4007d4b8e21a4f91d87e3/150/150/AvatarItem/Png" },
+        { id: 144076358, name: "Valkyrie Helm", category: "Hat", price: "R$ 50,000", icon: "https://tr.rbxcdn.com/ff708c9d09c67b2d56a0d4c8b6680459/150/150/AvatarItem/Png" },
+        { id: 1125510, name: "Fiery Horns", category: "Hat", price: "R$ 25,000", icon: "https://tr.rbxcdn.com/ffde383d65b77e231b51e064971c228a/150/150/AvatarItem/Png" },
+        { id: 398672920, name: "Roblox 'R' Baseball Cap", category: "Hat", price: "Free", icon: "https://tr.rbxcdn.com/152e008dfdae838f38c353a25c796791/150/150/AvatarItem/Png" }
     ];
 
-    // --- 2. RENDER FUNCTIONS ---
-    function renderInventory() {
-        const container = document.getElementById('catalog-container');
-        container.innerHTML = "";
+    const friends = [
+        { name: "Builderman", status: "In Game", type: "in-game", icon: "https://tr.rbxcdn.com/e28151240c548a80470f1a9c3b8bb5c7/150/150/Avatar/Png" },
+        { name: "Telamon", status: "Online", type: "online", icon: "https://tr.rbxcdn.com/e28151240c548a80470f1a9c3b8bb5c7/150/150/Avatar/Png" },
+        { name: "Shedletsky", status: "Offline", type: "offline", icon: "https://tr.rbxcdn.com/e28151240c548a80470f1a9c3b8bb5c7/150/150/Avatar/Png" }
+    ];
 
-        inventory.forEach(item => {
-            const isEquipped = user.equippedIds.includes(item.id);
-            
+    // --- 2. TAB SWITCHER ---
+    function switchTab(tabName) {
+        document.querySelectorAll('.rbx-nav-link').forEach(link => link.classList.remove('active'));
+        document.querySelectorAll('.page-section').forEach(page => page.classList.remove('active'));
+
+        document.getElementById(`nav-${tabName}`).classList.add('active');
+        document.getElementById(`page-${tabName}`).classList.add('active');
+    }
+
+    // --- 3. RENDERING ENGINE ---
+    function renderAvatarInventory() {
+        const grid = document.getElementById('avatar-inventory-grid');
+        grid.innerHTML = "";
+
+        items.forEach(item => {
+            const isEquipped = state.equippedIds.includes(item.id);
             const card = document.createElement('div');
-            card.className = `item-card ${isEquipped ? 'equipped' : ''}`;
+            card.className = `card ${isEquipped ? 'equipped' : ''}`;
             card.onclick = () => toggleEquip(item.id);
-
             card.innerHTML = `
-                <div class="item-equipped-icon">&#10003;</div>
-                <div class="item-image-wrapper">
-                    <img src="${item.icon}" alt="${item.name}">
-                </div>
-                <div class="item-details">
-                    <div class="item-name">${item.name}</div>
-                    <div class="item-category">${item.category}</div>
+                <div class="equipped-badge">&#10003;</div>
+                <div class="card-img"><img src="${item.icon}"></div>
+                <div class="card-body">
+                    <div class="card-title">${item.name}</div>
+                    <div class="card-subtitle">${item.category}</div>
                 </div>
             `;
-            container.appendChild(card);
+            grid.appendChild(card);
         });
     }
 
-    function renderPreviewStatus() {
-        document.getElementById('rig-display').innerText = user.rig;
-        document.getElementById('rig-toggle-text').innerText = user.rig === "R15" ? "R6" : "R15";
+    function renderCatalog() {
+        const grid = document.getElementById('catalog-shop-grid');
+        grid.innerHTML = "";
+
+        items.forEach(item => {
+            const card = document.createElement('div');
+            card.className = "card";
+            card.innerHTML = `
+                <div class="card-img"><img src="${item.icon}"></div>
+                <div class="card-body">
+                    <div class="card-title">${item.name}</div>
+                    <div class="card-subtitle">By Roblox</div>
+                    <div class="card-price">${item.price}</div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
     }
 
-    // --- 3. ACTIONS ---
+    function renderFriends() {
+        const grid = document.getElementById('friends-list-grid');
+        grid.innerHTML = "";
+
+        friends.forEach(f => {
+            const card = document.createElement('div');
+            card.className = "card";
+            card.innerHTML = `
+                <div class="card-img"><img src="${f.icon}"></div>
+                <div class="card-body">
+                    <div class="card-title">${f.name}</div>
+                    <div class="card-subtitle">
+                        <span class="status-dot status-${f.type}"></span>${f.status}
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    }
+
+    // --- 4. INTERACTION HELPERS ---
     function toggleEquip(id) {
-        if (user.equippedIds.includes(id)) {
-            // Unequip
-            user.equippedIds = user.equippedIds.filter(item => item !== id);
+        if (state.equippedIds.includes(id)) {
+            state.equippedIds = state.equippedIds.filter(i => i !== id);
         } else {
-            // Equip (limit to max 3 items for performance simulation)
-            if (user.equippedIds.length < 3) {
-                user.equippedIds.push(id);
-            } else {
-                alert("Revival Limit: You can only wear up to 3 accessories.");
-            }
+            state.equippedIds.push(id);
         }
-        renderInventory();
+        renderAvatarInventory();
     }
 
     function toggleRig() {
-        user.rig = user.rig === "R15" ? "R6" : "R15";
-        renderPreviewStatus();
+        state.rig = state.rig === "R15" ? "R6" : "R15";
+        document.getElementById('rig-display').innerText = state.rig;
     }
 
-    // --- 4. LAUNCH MODAL FUNCTIONS ---
-    const overlay = document.getElementById('launch-overlay');
-    
-    function openLaunchModal() {
-        const assetParams = user.equippedIds.join(",");
-        // The join.ashx would need to handle rig and assets params as configured in the previous Node.js step
-        const cmd = `RobloxPlayerBeta.exe -t 1 -j "http://localhost/game/join.ashx?placeId=1818&userId=${user.userId}&rig=${user.rig}&assets=${assetParams}"`;
-        
-        document.getElementById('launch-cmd-box').innerText = cmd;
-        overlay.style.display = 'flex';
+    function openLaunchModal(placeId = 1818) {
+        const assetParams = state.equippedIds.join(",");
+        const cmd = `RobloxPlayerBeta.exe -t 1 -j "http://localhost/game/join.ashx?placeId=${placeId}&userId=1&rig=${state.rig}&assets=${assetParams}"`;
+        document.getElementById('cmd-box').innerText = cmd;
+        document.getElementById('launch-modal').style.display = 'flex';
     }
 
     function closeModal() {
-        overlay.style.display = 'none';
+        document.getElementById('launch-modal').style.display = 'none';
     }
 
-    // Handle clicking outside modal to close
-    window.onclick = function(event) {
-        if (event.target == overlay) {
-            closeModal();
-        }
-    }
-
-    // Initialize UI
-    renderInventory();
-    renderPreviewStatus();
+    // Initialize all views
+    renderAvatarInventory();
+    renderCatalog();
+    renderFriends();
 </script>
 
 </body>
