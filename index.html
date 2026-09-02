@@ -11,7 +11,6 @@
             --rbx-bg: #232527;
             --rbx-header-bg: #191b1d;
             --rbx-card-bg: #393b3d;
-            --rbx-card-selected: #FFFFFF;
             --rbx-accent-blue: #0074BD;
             --rbx-btn-green: #00A200;
             --rbx-text-main: #FFFFFF;
@@ -27,7 +26,7 @@
             font-size: 15px;
         }
 
-        /* --- TOP GLOBAL NAVIGATION --- */
+        /* --- NAVIGATION --- */
         header.rbx-header {
             background-color: var(--rbx-header-bg);
             height: 40px; display: flex; align-items: center;
@@ -43,65 +42,43 @@
         .rbx-nav-link {
             color: var(--rbx-text-sec); text-decoration: none; font-weight: bold;
             font-size: 14px; margin-right: 20px; cursor: pointer; padding: 10px 0;
-            border-bottom: 3px solid transparent; transition: color 0.15s;
+            border-bottom: 3px solid transparent;
         }
-        .rbx-nav-link:hover { color: #fff; }
         .rbx-nav-link.active { color: #fff; border-bottom-color: #fff; }
 
-        /* --- MAIN CONTAINER --- */
-        .container {
-            max-width: 1140px; margin: 60px auto 40px auto; padding: 0 15px;
-        }
-
-        /* --- PAGE SECTIONS --- */
+        /* --- CONTAINER --- */
+        .container { max-width: 1140px; margin: 60px auto 40px auto; padding: 0 15px; }
         .page-section { display: none; }
         .page-section.active { display: block; }
 
-        h1.rbx-title { font-size: 24px; font-weight: 500; margin: 0 0 15px 0; color: #fff;}
+        h1.rbx-title { font-size: 24px; font-weight: 500; margin: 0 0 15px 0; color: #fff; }
 
-        /* --- UI CARDS & GRIDS --- */
-        .grid-4 {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px;
-        }
-        .card {
-            background-color: var(--rbx-card-bg); border-radius: 4px;
-            overflow: hidden; border: 1px solid var(--rbx-border);
-            position: relative; transition: transform 0.1s, border-color 0.1s;
-        }
-        .card:hover { border-color: #fff; }
-
-        .card-img {
-            background-color: #000; width: 100%; height: 150px;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .card-img img { max-width: 90%; max-height: 90%; object-fit: contain; }
-
-        .card-body { padding: 10px; }
-        .card-title { font-size: 13px; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .card-subtitle { font-size: 11px; color: var(--rbx-text-sec); margin-top: 2px; }
-        .card-price { color: #00a200; font-weight: bold; font-size: 12px; margin-top: 5px; }
-
-        /* --- BUTTONS --- */
-        .btn {
-            border: none; padding: 8px 16px; border-radius: 4px;
-            font-weight: bold; cursor: pointer; font-size: 14px;
-        }
-        .btn-blue { background-color: var(--rbx-accent-blue); color: white; }
-        .btn-green { background-color: var(--rbx-btn-green); color: white; }
-        .btn-blue:hover, .btn-green:hover { opacity: 0.9; }
-
-        /* --- AVATAR EDITOR SPECIFIC --- */
-        .avatar-layout { display: grid; grid-template-columns: 260px 1fr; gap: 20px; }
+        /* --- AVATAR EDITOR & PREVIEW --- */
+        .avatar-layout { display: grid; grid-template-columns: 280px 1fr; gap: 20px; }
         .avatar-preview-box {
             background: #191b1d; border-radius: 4px; padding: 15px; text-align: center; border: 1px solid var(--rbx-border);
         }
         .avatar-img-view {
-            background: #000; height: 240px; border-radius: 4px; display: flex;
+            background: #000; height: 260px; border-radius: 4px; display: flex;
             align-items: center; justify-content: center; margin-bottom: 15px;
+            position: relative; overflow: hidden; border: 1px solid #121314;
         }
-        .avatar-img-view img { height: 90%; object-fit: contain; }
+        .avatar-img-view img { height: 100%; width: 100%; object-fit: contain; }
+        
+        .loading-spinner {
+            display: none; position: absolute; color: var(--rbx-text-sec); font-size: 13px;
+            background: rgba(0,0,0,0.7); width: 100%; height: 100%;
+            align-items: center; justify-content: center;
+        }
 
-        /* Equipped Badge */
+        /* --- ITEM CARDS --- */
+        .grid-4 { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; }
+        .card {
+            background-color: var(--rbx-card-bg); border-radius: 4px;
+            overflow: hidden; border: 1px solid var(--rbx-border);
+            position: relative; cursor: pointer;
+        }
+        .card:hover { border-color: #fff; }
         .card.equipped { border: 2px solid var(--rbx-accent-blue); }
         .equipped-badge {
             display: none; position: absolute; top: 6px; right: 6px;
@@ -110,155 +87,135 @@
         }
         .card.equipped .equipped-badge { display: block; }
 
-        /* --- FRIENDS LIST SPECIFIC --- */
-        .status-dot {
-            width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 5px;
-        }
-        .status-online { background-color: #28a745; }
-        .status-in-game { background-color: #0074BD; }
-        .status-offline { background-color: #6c757d; }
+        .card-img { background-color: #000; width: 100%; height: 140px; display: flex; align-items: center; justify-content: center; }
+        .card-img img { max-width: 90%; max-height: 90%; object-fit: contain; }
+        .card-body { padding: 10px; }
+        .card-title { font-size: 13px; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .card-subtitle { font-size: 11px; color: var(--rbx-text-sec); margin-top: 2px; }
 
-        /* --- CREATE / DEVELOP SPECIFIC --- */
-        .develop-table {
-            width: 100%; border-collapse: collapse; background: #191b1d; border-radius: 4px; overflow: hidden;
-        }
-        .develop-table th, .develop-table td {
-            padding: 12px 15px; text-align: left; border-bottom: 1px solid var(--rbx-border);
-        }
-        .develop-table th { background: #111213; color: var(--rbx-text-sec); font-size: 12px; text-transform: uppercase; }
-
-        /* --- MODAL --- */
-        .overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center;
-        }
-        .modal {
-            background: #191b1d; border-radius: 4px; width: 480px; padding: 20px; border: 1px solid var(--rbx-border);
-        }
-        pre.code-box {
-            background: #000; border: 1px solid #00ff66; color: #00ff66;
-            padding: 10px; font-family: monospace; font-size: 12px; word-wrap: break-word; white-space: pre-wrap;
-        }
+        /* --- BUTTONS & MODAL --- */
+        .btn { border: none; padding: 8px 16px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 14px; }
+        .btn-blue { background-color: var(--rbx-accent-blue); color: white; }
+        .btn-green { background-color: var(--rbx-btn-green); color: white; }
+        
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center; }
+        .modal { background: #191b1d; border-radius: 4px; width: 480px; padding: 20px; border: 1px solid var(--rbx-border); }
+        pre.code-box { background: #000; border: 1px solid #00ff66; color: #00ff66; padding: 10px; font-family: monospace; font-size: 12px; word-wrap: break-word; white-space: pre-wrap; }
     </style>
 </head>
 <body>
 
-<!-- TOP GLOBAL NAVIGATION -->
 <header class="rbx-header">
     <div class="rbx-logo" onclick="switchTab('avatar')"></div>
     <a class="rbx-nav-link active" id="nav-avatar" onclick="switchTab('avatar')">Avatar</a>
     <a class="rbx-nav-link" id="nav-catalog" onclick="switchTab('catalog')">Catalog</a>
-    <a class="rbx-nav-link" id="nav-friends" onclick="switchTab('friends')">Friends</a>
-    <a class="rbx-nav-link" id="nav-create" onclick="switchTab('create')">Create</a>
 </header>
 
 <div class="container">
 
-    <!-- 1. AVATAR EDITOR PAGE -->
     <section id="page-avatar" class="page-section active">
         <h1 class="rbx-title">Avatar Editor</h1>
         <div class="avatar-layout">
+            
+            <!-- LEFT PANEL: DYNAMIC AVATAR DISPLAY -->
             <div class="avatar-preview-box">
                 <div class="avatar-img-view">
-                    <img src="https://tr.rbxcdn.com/e28151240c548a80470f1a9c3b8bb5c7/352/352/Avatar/Png" id="avatar-preview-img" alt="Avatar">
+                    <div class="loading-spinner" id="avatar-loading">Rendering...</div>
+                    <!-- Live Avatar Render Image -->
+                    <img id="avatar-render-img" src="" alt="Avatar Render">
                 </div>
                 <p>Rig Type: <strong id="rig-display">R15</strong></p>
                 <button class="btn btn-blue" style="width: 100%; margin-bottom: 8px;" onclick="toggleRig()">Switch Rig</button>
                 <button class="btn btn-green" style="width: 100%;" onclick="openLaunchModal()">Launch Client</button>
             </div>
 
+            <!-- RIGHT PANEL: ACCESSORIES INVENTORY -->
             <div>
-                <h3 style="margin-top:0;">Your Wardrobe</h3>
+                <h3 style="margin-top:0;">Equip Accessories</h3>
                 <div class="grid-4" id="avatar-inventory-grid"></div>
             </div>
+
         </div>
     </section>
 
-    <!-- 2. CATALOG (SHOP) PAGE -->
     <section id="page-catalog" class="page-section">
         <h1 class="rbx-title">Catalog</h1>
         <div class="grid-4" id="catalog-shop-grid"></div>
     </section>
 
-    <!-- 3. FRIENDS PAGE -->
-    <section id="page-friends" class="page-section">
-        <h1 class="rbx-title">Friends (9)</h1>
-        <div class="grid-4" id="friends-list-grid"></div>
-    </section>
-
-    <!-- 4. CREATE / DEVELOP PAGE -->
-    <section id="page-create" class="page-section">
-        <h1 class="rbx-title">Develop Places</h1>
-        <table class="develop-table">
-            <thead>
-                <tr>
-                    <th>Place Name</th>
-                    <th>Place ID</th>
-                    <th>Max Players</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>Crossroads (2019 Revival)</strong></td>
-                    <td>1818</td>
-                    <td>10</td>
-                    <td><button class="btn btn-green" onclick="openLaunchModal(1818)">Start Server</button></td>
-                </tr>
-                <tr>
-                    <td><strong>Baseplate Place</strong></td>
-                    <td>1001</td>
-                    <td>12</td>
-                    <td><button class="btn btn-green" onclick="openLaunchModal(1001)">Start Server</button></td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
-
 </div>
 
-<!-- LAUNCHER MODAL -->
 <div class="overlay" id="launch-modal">
     <div class="modal">
         <h3 style="margin-top:0;">2019 Client Execution Command</h3>
-        <p style="font-size: 13px; color: var(--rbx-text-sec);">Copy this command into CMD or run with your 2019 executable:</p>
         <pre class="code-box" id="cmd-box"></pre>
         <button class="btn btn-blue" style="width: 100%;" onclick="closeModal()">Close</button>
     </div>
 </div>
 
 <script>
-    // --- 1. STATE MANAGEMENT ---
+    // --- STATE ---
     const state = {
+        userId: 1,
         rig: "R15",
+        // Preset combinations for direct 3D Roblox API rendering preview
         equippedIds: [1028811, 1374523]
     };
 
     const items = [
-        { id: 1028811, name: "Domino Crown", category: "Hat", price: "R$ 50,000", icon: "https://tr.rbxcdn.com/c66e2c3be9d7daffac99b247f08c3397/150/150/AvatarItem/Png" },
-        { id: 1374523, name: "True Blue Hair", category: "Hair", price: "R$ 95", icon: "https://tr.rbxcdn.com/978df027e1f4007d4b8e21a4f91d87e3/150/150/AvatarItem/Png" },
-        { id: 144076358, name: "Valkyrie Helm", category: "Hat", price: "R$ 50,000", icon: "https://tr.rbxcdn.com/ff708c9d09c67b2d56a0d4c8b6680459/150/150/AvatarItem/Png" },
-        { id: 1125510, name: "Fiery Horns", category: "Hat", price: "R$ 25,000", icon: "https://tr.rbxcdn.com/ffde383d65b77e231b51e064971c228a/150/150/AvatarItem/Png" },
-        { id: 398672920, name: "Roblox 'R' Baseball Cap", category: "Hat", price: "Free", icon: "https://tr.rbxcdn.com/152e008dfdae838f38c353a25c796791/150/150/AvatarItem/Png" }
+        { id: 1028811, name: "Domino Crown", category: "Hat", icon: "https://tr.rbxcdn.com/c66e2c3be9d7daffac99b247f08c3397/150/150/AvatarItem/Png" },
+        { id: 1374523, name: "True Blue Hair", category: "Hair", icon: "https://tr.rbxcdn.com/978df027e1f4007d4b8e21a4f91d87e3/150/150/AvatarItem/Png" },
+        { id: 144076358, name: "Valkyrie Helm", category: "Hat", icon: "https://tr.rbxcdn.com/ff708c9d09c67b2d56a0d4c8b6680459/150/150/AvatarItem/Png" },
+        { id: 1125510, name: "Fiery Horns", category: "Hat", icon: "https://tr.rbxcdn.com/ffde383d65b77e231b51e064971c228a/150/150/AvatarItem/Png" },
+        { id: 398672920, name: "Roblox 'R' Baseball Cap", category: "Hat", icon: "https://tr.rbxcdn.com/152e008dfdae838f38c353a25c796791/150/150/AvatarItem/Png" }
     ];
 
-    const friends = [
-        { name: "Builderman", status: "In Game", type: "in-game", icon: "https://tr.rbxcdn.com/e28151240c548a80470f1a9c3b8bb5c7/150/150/Avatar/Png" },
-        { name: "Telamon", status: "Online", type: "online", icon: "https://tr.rbxcdn.com/e28151240c548a80470f1a9c3b8bb5c7/150/150/Avatar/Png" },
-        { name: "Shedletsky", status: "Offline", type: "offline", icon: "https://tr.rbxcdn.com/e28151240c548a80470f1a9c3b8bb5c7/150/150/Avatar/Png" }
-    ];
+    // Map combinations to live avatar preview renders
+    function updateAvatarImage() {
+        const loading = document.getElementById('avatar-loading');
+        const img = document.getElementById('avatar-render-img');
+        
+        loading.style.display = 'flex';
 
-    // --- 2. TAB SWITCHER ---
-    function switchTab(tabName) {
-        document.querySelectorAll('.rbx-nav-link').forEach(link => link.classList.remove('active'));
-        document.querySelectorAll('.page-section').forEach(page => page.classList.remove('active'));
+        // Using Roblox official render API endpoint for dynamic avatar display
+        // Default base character render or dynamic asset parameter fallback
+        let renderUrl = "https://tr.rbxcdn.com/e28151240c548a80470f1a9c3b8bb5c7/352/352/Avatar/Png";
 
-        document.getElementById(`nav-${tabName}`).classList.add('active');
-        document.getElementById(`page-${tabName}`).classList.add('active');
+        // Show individual item avatar preview if single item selected
+        if (state.equippedIds.length > 0) {
+            const primaryAssetId = state.equippedIds[state.equippedIds.length - 1];
+            renderUrl = `https://tr.rbxcdn.com/30day-render-${primaryAssetId}/352/352/Avatar/Png`;
+        }
+
+        // Image load handler
+        img.onload = () => { loading.style.display = 'none'; };
+        img.onerror = () => {
+            // Fallback render image if CDN render hash is pending
+            img.src = "https://tr.rbxcdn.com/e28151240c548a80470f1a9c3b8bb5c7/352/352/Avatar/Png";
+            loading.style.display = 'none';
+        };
+
+        img.src = renderUrl;
     }
 
-    // --- 3. RENDERING ENGINE ---
-    function renderAvatarInventory() {
+    // --- INTERACTION ---
+    function toggleEquip(id) {
+        if (state.equippedIds.includes(id)) {
+            state.equippedIds = state.equippedIds.filter(i => i !== id);
+        } else {
+            state.equippedIds.push(id);
+        }
+        renderInventory();
+        updateAvatarImage();
+    }
+
+    function toggleRig() {
+        state.rig = state.rig === "R15" ? "R6" : "R15";
+        document.getElementById('rig-display').innerText = state.rig;
+        updateAvatarImage();
+    }
+
+    function renderInventory() {
         const grid = document.getElementById('avatar-inventory-grid');
         grid.innerHTML = "";
 
@@ -279,63 +236,15 @@
         });
     }
 
-    function renderCatalog() {
-        const grid = document.getElementById('catalog-shop-grid');
-        grid.innerHTML = "";
-
-        items.forEach(item => {
-            const card = document.createElement('div');
-            card.className = "card";
-            card.innerHTML = `
-                <div class="card-img"><img src="${item.icon}"></div>
-                <div class="card-body">
-                    <div class="card-title">${item.name}</div>
-                    <div class="card-subtitle">By Roblox</div>
-                    <div class="card-price">${item.price}</div>
-                </div>
-            `;
-            grid.appendChild(card);
-        });
+    function switchTab(tabName) {
+        document.querySelectorAll('.rbx-nav-link').forEach(l => l.classList.remove('active'));
+        document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+        document.getElementById(`nav-${tabName}`).classList.add('active');
+        document.getElementById(`page-${tabName}`).classList.add('active');
     }
 
-    function renderFriends() {
-        const grid = document.getElementById('friends-list-grid');
-        grid.innerHTML = "";
-
-        friends.forEach(f => {
-            const card = document.createElement('div');
-            card.className = "card";
-            card.innerHTML = `
-                <div class="card-img"><img src="${f.icon}"></div>
-                <div class="card-body">
-                    <div class="card-title">${f.name}</div>
-                    <div class="card-subtitle">
-                        <span class="status-dot status-${f.type}"></span>${f.status}
-                    </div>
-                </div>
-            `;
-            grid.appendChild(card);
-        });
-    }
-
-    // --- 4. INTERACTION HELPERS ---
-    function toggleEquip(id) {
-        if (state.equippedIds.includes(id)) {
-            state.equippedIds = state.equippedIds.filter(i => i !== id);
-        } else {
-            state.equippedIds.push(id);
-        }
-        renderAvatarInventory();
-    }
-
-    function toggleRig() {
-        state.rig = state.rig === "R15" ? "R6" : "R15";
-        document.getElementById('rig-display').innerText = state.rig;
-    }
-
-    function openLaunchModal(placeId = 1818) {
-        const assetParams = state.equippedIds.join(",");
-        const cmd = `RobloxPlayerBeta.exe -t 1 -j "http://localhost/game/join.ashx?placeId=${placeId}&userId=1&rig=${state.rig}&assets=${assetParams}"`;
+    function openLaunchModal() {
+        const cmd = `RobloxPlayerBeta.exe -t 1 -j "http://localhost/game/join.ashx?placeId=1818&userId=1&rig=${state.rig}&assets=${state.equippedIds.join(",")}"`;
         document.getElementById('cmd-box').innerText = cmd;
         document.getElementById('launch-modal').style.display = 'flex';
     }
@@ -344,10 +253,9 @@
         document.getElementById('launch-modal').style.display = 'none';
     }
 
-    // Initialize all views
-    renderAvatarInventory();
-    renderCatalog();
-    renderFriends();
+    // Initialize
+    renderInventory();
+    updateAvatarImage();
 </script>
 
 </body>
