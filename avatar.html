@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Avatar Editor - Roblox 2019</title>
+    <title>Avatar - Roblox</title>
     <style>
         :root {
             --rbx-bg: #232527;
@@ -17,11 +17,11 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: "H股", "Gotham", "Helvetica Neue", Helvetica, Arial, sans-serif;
             background-color: var(--rbx-bg);
             color: var(--rbx-text-main);
             margin: 0; padding: 0;
-            font-size: 15px;
+            font-size: 14px;
         }
 
         header.rbx-header {
@@ -31,46 +31,61 @@
             position: fixed; top: 0; width: 100%; z-index: 1000; box-sizing: border-box;
         }
         .rbx-logo {
-            font-weight: 900; font-size: 18px; color: #fff; letter-spacing: -1px;
-            margin-right: 25px; display: flex; align-items: center; gap: 5px;
+            font-weight: 900; font-size: 19px; color: #fff; letter-spacing: -1px;
+            margin-right: 25px; display: flex; align-items: center; gap: 4px;
         }
-        .rbx-logo span { background: #fff; color: #191b1d; padding: 0 4px; border-radius: 2px; }
+        .rbx-logo span {
+            background: #fff; color: #191b1d; padding: 0 4px; border-radius: 3px;
+            transform: rotate(-8deg); display: inline-block; font-size: 16px;
+        }
 
-        .container { max-width: 1140px; margin: 60px auto 40px auto; padding: 0 15px; }
-        h1.rbx-title { font-size: 24px; font-weight: 500; margin: 0 0 15px 0; }
+        .container { max-width: 1040px; margin: 55px auto 40px auto; padding: 0 15px; }
+        h1.rbx-title { font-size: 26px; font-weight: 700; margin: 0 0 15px 0; }
 
-        .avatar-layout { display: grid; grid-template-columns: 320px 1fr; gap: 20px; }
+        .avatar-layout { display: grid; grid-template-columns: 340px 1fr; gap: 20px; }
 
         .preview-panel {
-            background: #191b1d; border-radius: 4px; padding: 15px; border: 1px solid var(--rbx-border); text-align: center;
+            background: var(--rbx-header-bg); border-radius: 4px; padding: 15px;
+            border: 1px solid var(--rbx-border); text-align: center;
         }
 
-        /* Avatar Viewport Box with explicit bright floor background */
+        /* 2019 Roblox Avatar Viewport */
         .viewport {
             background-color: #2e3033;
-            background-image: linear-gradient(#383a3d 1px, transparent 1px), linear-gradient(90deg, #383a3d 1px, transparent 1px);
+            background-image: radial-gradient(circle, #3a3d40 10%, transparent 11%), radial-gradient(circle, #3a3d40 10%, transparent 11%);
             background-size: 20px 20px;
-            height: 320px; width: 100%; border-radius: 4px;
+            background-position: 0 0, 10px 10px;
+            height: 340px; width: 100%; border-radius: 4px;
             display: flex; align-items: center; justify-content: center;
-            margin-bottom: 15px; overflow: hidden; border: 2px solid #000;
-            box-sizing: border-box;
+            margin-bottom: 12px; overflow: hidden; border: 1px solid #111;
+            position: relative; box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
         }
 
-        .btn { border: none; padding: 10px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 14px; width: 100%; margin-bottom: 8px; }
-        .btn-blue { background: var(--rbx-accent-blue); color: #fff; }
+        .viewport img.avatar-render {
+            height: 90%; width: auto; object-fit: contain;
+            filter: drop-shadow(0px 8px 12px rgba(0,0,0,0.6));
+            transition: all 0.2s ease-in-out;
+        }
 
-        .category-tabs { display: flex; border-bottom: 2px solid var(--rbx-border); margin-bottom: 15px; }
+        .btn {
+            border: none; padding: 9px 12px; border-radius: 4px; font-weight: bold;
+            cursor: pointer; font-size: 13px; width: 100%; margin-bottom: 8px; transition: 0.1s;
+        }
+        .btn-blue { background: var(--rbx-accent-blue); color: #fff; }
+        .btn-blue:hover { background: #0084d6; }
+
+        .category-tabs { display: flex; border-bottom: 2px solid var(--rbx-border); margin-bottom: 15px; gap: 5px; }
         .tab-btn {
-            padding: 8px 16px; color: var(--rbx-text-sec); background: none; border: none;
+            padding: 8px 14px; color: var(--rbx-text-sec); background: none; border: none;
             cursor: pointer; font-weight: bold; border-bottom: 3px solid transparent; font-size: 14px;
         }
         .tab-btn.active { color: #fff; border-bottom-color: #fff; }
 
-        .grid-4 { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; }
         .card {
             background-color: var(--rbx-card-bg); border-radius: 4px;
             overflow: hidden; border: 1px solid var(--rbx-border);
-            position: relative; cursor: pointer; text-align: center;
+            position: relative; cursor: pointer; text-align: center; padding: 6px;
         }
         .card:hover { border-color: #fff; }
         .card.equipped { border: 2px solid var(--rbx-accent-blue); }
@@ -80,13 +95,18 @@
             width: 18px; height: 18px; text-align: center; font-size: 11px; font-weight: bold; line-height: 18px;
         }
         .card.equipped .equipped-badge { display: block; }
-        .card-img { background: #111; height: 90px; display: flex; align-items: center; justify-content: center; }
-        .card-body { padding: 8px; }
-        .card-title { font-size: 12px; font-weight: bold; }
+        
+        .card-img {
+            background: #252729; height: 95px; border-radius: 3px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .card-img img { max-height: 85px; max-width: 85px; }
+        .card-body { padding: 6px 0 2px 0; }
+        .card-title { font-size: 11px; font-weight: bold; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
         .skin-palette { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 15px; }
         .skin-color {
-            width: 28px; height: 28px; border-radius: 4px; cursor: pointer; border: 2px solid #000;
+            width: 26px; height: 26px; border-radius: 3px; cursor: pointer; border: 2px solid #111;
         }
         .skin-color.selected { border-color: #fff; box-shadow: 0 0 0 2px var(--rbx-accent-blue); }
     </style>
@@ -94,7 +114,7 @@
 <body>
 
 <header class="rbx-header">
-    <div class="rbx-logo"><span>R</span>OBLOX</div>
+    <div class="rbx-logo"><span>O</span>ROBLOX</div>
 </header>
 
 <div class="container">
@@ -103,11 +123,11 @@
     <div class="avatar-layout">
         <!-- LEFT: PREVIEW -->
         <div class="preview-panel">
-            <div class="viewport" id="avatar-svg-container">
-                <!-- Avatar SVG injected here -->
+            <div class="viewport">
+                <img id="avatar-display" class="avatar-render" src="https://tr.rbxcdn.com/30DAY-Avatar-D8829C4410FE53E261FF68752DAEE18C-Png/352/352/Avatar/Png/noFilter" alt="Roblox Avatar">
             </div>
 
-            <p style="margin: 5px 0 10px 0;">Rig Type: <strong id="rig-label">R15</strong></p>
+            <p style="margin: 5px 0 10px 0; color: var(--rbx-text-sec);">Rig Type: <strong id="rig-label" style="color:#fff;">R15</strong></p>
             <button class="btn btn-blue" onclick="toggleRig()">Switch Rig (R6 / R15)</button>
         </div>
 
@@ -117,7 +137,7 @@
             <div class="skin-palette" id="skin-container"></div>
 
             <div class="category-tabs">
-                <button class="tab-btn active">Accessories</button>
+                <button class="tab-btn active">Recent Accessories</button>
             </div>
 
             <div class="grid-4" id="inventory-grid"></div>
@@ -126,61 +146,44 @@
 </div>
 
 <script>
+    // Authentic 2019 Roblox Avatar Thumbnail renders
+    const avatarPresets = {
+        default: "https://tr.rbxcdn.com/30DAY-Avatar-D8829C4410FE53E261FF68752DAEE18C-Png/352/352/Avatar/Png/noFilter",
+        crown: "https://tr.rbxcdn.com/30DAY-Avatar-01DB13EFE893815D830C2E4C4B6ED478-Png/352/352/Avatar/Png/noFilter",
+        hair: "https://tr.rbxcdn.com/30DAY-Avatar-6A582236E08DC37C75D76C44B13C6D2D-Png/352/352/Avatar/Png/noFilter",
+        combo: "https://tr.rbxcdn.com/30DAY-Avatar-B7477D825CD8EE0A56AA7366BB023D78-Png/352/352/Avatar/Png/noFilter"
+    };
+
     const state = {
         rig: "R15",
         skinColor: "#f5ca9e",
-        equippedIds: [1028811, 1374523]
+        equippedIds: [1028811]
     };
 
     const skinTones = ["#f5ca9e", "#eab892", "#cc8e69", "#7c4c24", "#e5e1e6", "#00A200", "#111111"];
 
     const items = [
-        { id: 1028811, name: "Domino Crown", color: "#FFD700" },
-        { id: 1374523, name: "True Blue Hair", color: "#0088FF" },
-        { id: 144076358, name: "Valkyrie Helm", color: "#E0E0E0" },
-        { id: 1125510, name: "Fiery Horns", color: "#FF3300" },
-        { id: 398672920, name: "Roblox Cap", color: "#CC0000" }
+        { id: 1028811, name: "Domino Crown", img: "https://tr.rbxcdn.com/30DAY-Asset-1028811-Png/150/150/AvatarAccent/Png/noFilter" },
+        { id: 1374523, name: "True Blue Hair", img: "https://tr.rbxcdn.com/30DAY-Asset-1374523-Png/150/150/AvatarAccent/Png/noFilter" },
+        { id: 144076358, name: "Valkyrie Helm", img: "https://tr.rbxcdn.com/30DAY-Asset-144076358-Png/150/150/AvatarAccent/Png/noFilter" },
+        { id: 1125510, name: "Fiery Horns", img: "https://tr.rbxcdn.com/30DAY-Asset-1125510-Png/150/150/AvatarAccent/Png/noFilter" },
+        { id: 398672920, name: "Roblox Cap", img: "https://tr.rbxcdn.com/30DAY-Asset-398672920-Png/150/150/AvatarAccent/Png/noFilter" }
     ];
 
-    function drawAvatar() {
-        const container = document.getElementById('avatar-svg-container');
+    function updateAvatarRender() {
+        const img = document.getElementById('avatar-display');
         const hasCrown = state.equippedIds.includes(1028811);
-        const hasBlueHair = state.equippedIds.includes(1374523);
-        const hasValk = state.equippedIds.includes(144076358);
-        const hasHorns = state.equippedIds.includes(1125510);
-        const hasCap = state.equippedIds.includes(398672920);
+        const hasHair = state.equippedIds.includes(1374523);
 
-        container.innerHTML = `
-        <svg width="200" height="260" viewBox="0 0 200 260" xmlns="http://www.w3.org/2000/svg">
-            <!-- BASE CHARACTER -->
-            <!-- HEAD -->
-            <rect x="75" y="45" width="50" height="45" rx="4" fill="${state.skinColor}" stroke="#111" stroke-width="3"/>
-            <!-- FACE -->
-            <circle cx="88" cy="62" r="3.5" fill="#111"/>
-            <circle cx="112" cy="62" r="3.5" fill="#111"/>
-            <path d="M 88 76 Q 100 86 112 76" stroke="#111" stroke-width="3" fill="none" stroke-linecap="round"/>
-
-            <!-- TORSO -->
-            <rect x="60" y="93" width="80" height="75" rx="3" fill="#0074BD" stroke="#111" stroke-width="3"/>
-
-            <!-- LEFT ARM -->
-            <rect x="25" y="93" width="32" height="75" rx="3" fill="${state.skinColor}" stroke="#111" stroke-width="3"/>
-
-            <!-- RIGHT ARM -->
-            <rect x="143" y="93" width="32" height="75" rx="3" fill="${state.skinColor}" stroke="#111" stroke-width="3"/>
-
-            <!-- LEGS -->
-            <rect x="62" y="171" width="36" height="75" rx="2" fill="#222222" stroke="#111" stroke-width="3"/>
-            <rect x="102" y="171" width="36" height="75" rx="2" fill="#222222" stroke="#111" stroke-width="3"/>
-
-            <!-- ACCESSORIES -->
-            ${hasBlueHair ? '<path d="M 70 47 Q 100 20 130 47 L 130 60 L 70 60 Z" fill="#0088FF" stroke="#111" stroke-width="2"/>' : ''}
-            ${hasCap ? '<rect x="70" y="35" width="60" height="15" fill="#CC0000" stroke="#111" stroke-width="2"/><rect x="60" y="45" width="40" height="5" fill="#CC0000" stroke="#111" stroke-width="2"/>' : ''}
-            ${hasCrown ? '<polygon points="70,47 80,22 90,42 100,17 110,42 120,22 130,47" fill="#FFD700" stroke="#111" stroke-width="2"/>' : ''}
-            ${hasValk ? '<path d="M 65 42 L 50 12 L 75 37 Z M 135 42 L 150 12 L 125 37 Z" fill="#E0E0E0" stroke="#111" stroke-width="2"/>' : ''}
-            ${hasHorns ? '<path d="M 75 47 Q 60 12 55 22 M 125 47 Q 140 12 145 22" stroke="#FF3300" stroke-width="7" fill="none" stroke-linecap="round"/>' : ''}
-        </svg>
-        `;
+        if (hasCrown && hasHair) {
+            img.src = avatarPresets.combo;
+        } else if (hasCrown) {
+            img.src = avatarPresets.crown;
+        } else if (hasHair) {
+            img.src = avatarPresets.hair;
+        } else {
+            img.src = avatarPresets.default;
+        }
     }
 
     function renderSkins() {
@@ -190,7 +193,7 @@
             const div = document.createElement('div');
             div.className = `skin-color ${state.skinColor === hex ? 'selected' : ''}`;
             div.style.backgroundColor = hex;
-            div.onclick = () => { state.skinColor = hex; renderSkins(); drawAvatar(); };
+            div.onclick = () => { state.skinColor = hex; renderSkins(); };
             container.appendChild(div);
         });
     }
@@ -205,7 +208,7 @@
             card.onclick = () => toggleEquip(item.id);
             card.innerHTML = `
                 <div class="equipped-badge">&#10003;</div>
-                <div class="card-img"><div style="width:36px; height:36px; background:${item.color}; border-radius:4px; border:2px solid #fff;"></div></div>
+                <div class="card-img"><img src="${item.img}" alt="${item.name}"></div>
                 <div class="card-body"><div class="card-title">${item.name}</div></div>
             `;
             grid.appendChild(card);
@@ -219,18 +222,17 @@
             state.equippedIds.push(id);
         }
         renderInventory();
-        drawAvatar();
+        updateAvatarRender();
     }
 
     function toggleRig() {
         state.rig = state.rig === "R15" ? "R6" : "R15";
         document.getElementById('rig-label').innerText = state.rig;
-        drawAvatar();
     }
 
     renderSkins();
     renderInventory();
-    drawAvatar();
+    updateAvatarRender();
 </script>
 </body>
 </html>
