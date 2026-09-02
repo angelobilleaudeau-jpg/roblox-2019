@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Avatar Editor - Roblox 2019</title>
-    <link rel="icon" type="image/png" href="https://images.rbxcdn.com/23421379374092b378b273b4d455d31b.png.ico" />
     <style>
         :root {
             --rbx-bg: #232527;
@@ -18,14 +17,13 @@
         }
 
         body {
-            font-family: "HCo Gotham SSm", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-family: Arial, sans-serif;
             background-color: var(--rbx-bg);
             color: var(--rbx-text-main);
             margin: 0; padding: 0;
             font-size: 15px;
         }
 
-        /* HEADER */
         header.rbx-header {
             background-color: var(--rbx-header-bg);
             height: 40px; display: flex; align-items: center;
@@ -34,34 +32,33 @@
         }
         .rbx-logo {
             font-weight: 900; font-size: 18px; color: #fff; letter-spacing: -1px;
-            margin-right: 25px; cursor: pointer; display: flex; align-items: center; gap: 5px;
+            margin-right: 25px; display: flex; align-items: center; gap: 5px;
         }
-        .rbx-logo span { background: #fff; color: #191b1d; padding: 0 4px; border-radius: 2px; transform: rotate(-5deg); display: inline-block; }
-        .rbx-nav-link { color: var(--rbx-text-sec); text-decoration: none; font-weight: bold; font-size: 14px; margin-right: 20px; }
-        .rbx-nav-link.active { color: #fff; }
+        .rbx-logo span { background: #fff; color: #191b1d; padding: 0 4px; border-radius: 2px; }
 
-        /* LAYOUT */
         .container { max-width: 1140px; margin: 60px auto 40px auto; padding: 0 15px; }
         h1.rbx-title { font-size: 24px; font-weight: 500; margin: 0 0 15px 0; }
 
         .avatar-layout { display: grid; grid-template-columns: 320px 1fr; gap: 20px; }
 
-        /* AVATAR PREVIEW PANEL */
         .preview-panel {
             background: #191b1d; border-radius: 4px; padding: 15px; border: 1px solid var(--rbx-border); text-align: center;
         }
+
+        /* Avatar Viewport Box with explicit bright floor background */
         .viewport {
-            background: #000; height: 320px; border-radius: 4px; display: flex;
-            align-items: center; justify-content: center; margin-bottom: 15px;
-            position: relative; overflow: hidden; border: 1px solid var(--rbx-border);
+            background-color: #2e3033;
+            background-image: linear-gradient(#383a3d 1px, transparent 1px), linear-gradient(90deg, #383a3d 1px, transparent 1px);
+            background-size: 20px 20px;
+            height: 320px; width: 100%; border-radius: 4px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 15px; overflow: hidden; border: 2px solid #000;
+            box-sizing: border-box;
         }
 
-        /* BUTTONS */
         .btn { border: none; padding: 10px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 14px; width: 100%; margin-bottom: 8px; }
         .btn-blue { background: var(--rbx-accent-blue); color: #fff; }
-        .btn-green { background: var(--rbx-btn-green); color: #fff; }
 
-        /* TABS */
         .category-tabs { display: flex; border-bottom: 2px solid var(--rbx-border); margin-bottom: 15px; }
         .tab-btn {
             padding: 8px 16px; color: var(--rbx-text-sec); background: none; border: none;
@@ -69,7 +66,6 @@
         }
         .tab-btn.active { color: #fff; border-bottom-color: #fff; }
 
-        /* INVENTORY GRID */
         .grid-4 { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
         .card {
             background-color: var(--rbx-card-bg); border-radius: 4px;
@@ -84,100 +80,68 @@
             width: 18px; height: 18px; text-align: center; font-size: 11px; font-weight: bold; line-height: 18px;
         }
         .card.equipped .equipped-badge { display: block; }
-        .card-img { background: #111; height: 100px; display: flex; align-items: center; justify-content: center; }
+        .card-img { background: #111; height: 90px; display: flex; align-items: center; justify-content: center; }
         .card-body { padding: 8px; }
-        .card-title { font-size: 12px; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .card-title { font-size: 12px; font-weight: bold; }
 
-        /* SKIN TONE PALETTE */
         .skin-palette { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 15px; }
         .skin-color {
-            width: 28px; height: 28px; border-radius: 4px; cursor: pointer; border: 2px solid transparent;
+            width: 28px; height: 28px; border-radius: 4px; cursor: pointer; border: 2px solid #000;
         }
-        .skin-color.selected { border-color: #fff; }
-
-        /* EQUIPPED TRAY */
-        .equipped-tray {
-            margin-top: 20px; background: #191b1d; padding: 12px; border-radius: 4px; border: 1px solid var(--rbx-border);
-        }
-        .tray-items { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
-        .tray-chip {
-            background: var(--rbx-card-bg); padding: 4px 10px; border-radius: 12px;
-            font-size: 12px; display: flex; align-items: center; gap: 6px;
-        }
-        .tray-chip span { cursor: pointer; color: #dc3545; font-weight: bold; }
+        .skin-color.selected { border-color: #fff; box-shadow: 0 0 0 2px var(--rbx-accent-blue); }
     </style>
 </head>
 <body>
 
 <header class="rbx-header">
     <div class="rbx-logo"><span>R</span>OBLOX</div>
-    <a class="rbx-nav-link active">Avatar</a>
 </header>
 
 <div class="container">
     <h1 class="rbx-title">Avatar Editor</h1>
 
     <div class="avatar-layout">
-        <!-- LEFT: PREVIEW & CONTROLS -->
+        <!-- LEFT: PREVIEW -->
         <div class="preview-panel">
             <div class="viewport" id="avatar-svg-container">
-                <!-- SVG Avatar renders live inside here -->
+                <!-- Avatar SVG injected here -->
             </div>
 
             <p style="margin: 5px 0 10px 0;">Rig Type: <strong id="rig-label">R15</strong></p>
             <button class="btn btn-blue" onclick="toggleRig()">Switch Rig (R6 / R15)</button>
-            <button class="btn btn-green" onclick="alert('Avatar configuration saved!')">Save Avatar</button>
         </div>
 
-        <!-- RIGHT: CATALOG INVENTORY & SKIN CUSTOMIZER -->
+        <!-- RIGHT: INVENTORY -->
         <div>
-            <!-- SKIN COLOR PICKER -->
-            <h4 style="margin: 0 0 8px 0; color: var(--rbx-text-sec);">Body Color</h4>
+            <h4 style="margin: 0 0 8px 0; color: var(--rbx-text-sec);">Skin Tone</h4>
             <div class="skin-palette" id="skin-container"></div>
 
-            <!-- CATEGORY TABS -->
             <div class="category-tabs">
-                <button class="tab-btn active" onclick="filterCategory('All', this)">All</button>
-                <button class="tab-btn" onclick="filterCategory('Hat', this)">Accessories</button>
-                <button class="tab-btn" onclick="filterCategory('Hair', this)">Hair</button>
-                <button class="tab-btn" onclick="filterCategory('Clothing', this)">Clothing</button>
+                <button class="tab-btn active">Accessories</button>
             </div>
 
-            <!-- ITEMS GRID -->
             <div class="grid-4" id="inventory-grid"></div>
-
-            <!-- CURRENTLY EQUIPPED TRAY -->
-            <div class="equipped-tray">
-                <strong style="font-size: 13px; color: var(--rbx-text-sec);">Currently Wearing:</strong>
-                <div class="tray-items" id="tray-container"></div>
-            </div>
         </div>
     </div>
 </div>
 
 <script>
-    // STATE
     const state = {
         rig: "R15",
         skinColor: "#f5ca9e",
-        equippedIds: [1028811, 1374523],
-        shirtColor: "#0074BD"
+        equippedIds: [1028811, 1374523]
     };
 
     const skinTones = ["#f5ca9e", "#eab892", "#cc8e69", "#7c4c24", "#e5e1e6", "#00A200", "#111111"];
 
     const items = [
-        { id: 1028811, name: "Domino Crown", category: "Hat", color: "#FFD700" },
-        { id: 1374523, name: "True Blue Hair", category: "Hair", color: "#0088FF" },
-        { id: 144076358, name: "Valkyrie Helm", category: "Hat", color: "#CCCCCC" },
-        { id: 1125510, name: "Fiery Horns", category: "Hat", color: "#FF3300" },
-        { id: 398672920, name: "Roblox Cap", category: "Hat", color: "#CC0000" },
-        { id: 144076760, name: "Classic Hoodie", category: "Clothing", color: "#222222" }
+        { id: 1028811, name: "Domino Crown", color: "#FFD700" },
+        { id: 1374523, name: "True Blue Hair", color: "#0088FF" },
+        { id: 144076358, name: "Valkyrie Helm", color: "#E0E0E0" },
+        { id: 1125510, name: "Fiery Horns", color: "#FF3300" },
+        { id: 398672920, name: "Roblox Cap", color: "#CC0000" }
     ];
 
-    let currentFilter = "All";
-
-    // DRAW THE AVATAR DYNAMICALLY
     function drawAvatar() {
         const container = document.getElementById('avatar-svg-container');
         const hasCrown = state.equippedIds.includes(1028811);
@@ -185,44 +149,40 @@
         const hasValk = state.equippedIds.includes(144076358);
         const hasHorns = state.equippedIds.includes(1125510);
         const hasCap = state.equippedIds.includes(398672920);
-        const hasHoodie = state.equippedIds.includes(144076760);
-
-        const torsoColor = hasHoodie ? "#222222" : state.shirtColor;
 
         container.innerHTML = `
-        <svg width="220" height="280" viewBox="0 0 220 280">
+        <svg width="200" height="260" viewBox="0 0 200 260" xmlns="http://www.w3.org/2000/svg">
+            <!-- BASE CHARACTER -->
             <!-- HEAD -->
-            <rect x="85" y="55" width="50" height="45" rx="6" fill="${state.skinColor}" stroke="#000" stroke-width="2"/>
-            <!-- EYES & SMILE -->
-            <circle cx="98" cy="72" r="3" fill="#000"/>
-            <circle cx="122" cy="72" r="3" fill="#000"/>
-            <path d="M 98 86 Q 110 96 122 86" stroke="#000" stroke-width="2.5" fill="none"/>
+            <rect x="75" y="45" width="50" height="45" rx="4" fill="${state.skinColor}" stroke="#111" stroke-width="3"/>
+            <!-- FACE -->
+            <circle cx="88" cy="62" r="3.5" fill="#111"/>
+            <circle cx="112" cy="62" r="3.5" fill="#111"/>
+            <path d="M 88 76 Q 100 86 112 76" stroke="#111" stroke-width="3" fill="none" stroke-linecap="round"/>
 
             <!-- TORSO -->
-            <rect x="70" y="103" width="80" height="75" rx="3" fill="${torsoColor}" stroke="#000" stroke-width="2"/>
-            ${hasHoodie ? '<rect x="100" y="103" width="20" height="75" fill="#111"/>' : ''}
+            <rect x="60" y="93" width="80" height="75" rx="3" fill="#0074BD" stroke="#111" stroke-width="3"/>
 
             <!-- LEFT ARM -->
-            <rect x="35" y="103" width="32" height="75" rx="3" fill="${state.skinColor}" stroke="#000" stroke-width="2"/>
-            
+            <rect x="25" y="93" width="32" height="75" rx="3" fill="${state.skinColor}" stroke="#111" stroke-width="3"/>
+
             <!-- RIGHT ARM -->
-            <rect x="153" y="103" width="32" height="75" rx="3" fill="${state.skinColor}" stroke="#000" stroke-width="2"/>
+            <rect x="143" y="93" width="32" height="75" rx="3" fill="${state.skinColor}" stroke="#111" stroke-width="3"/>
 
             <!-- LEGS -->
-            <rect x="72" y="181" width="36" height="80" rx="2" fill="#111111" stroke="#000" stroke-width="2"/>
-            <rect x="112" y="181" width="36" height="80" rx="2" fill="#111111" stroke="#000" stroke-width="2"/>
+            <rect x="62" y="171" width="36" height="75" rx="2" fill="#222222" stroke="#111" stroke-width="3"/>
+            <rect x="102" y="171" width="36" height="75" rx="2" fill="#222222" stroke="#111" stroke-width="3"/>
 
             <!-- ACCESSORIES -->
-            ${hasBlueHair ? '<path d="M 80 57 Q 110 30 140 57 L 140 70 L 80 70 Z" fill="#0088FF" stroke="#000"/>' : ''}
-            ${hasCap ? '<rect x="80" y="45" width="60" height="15" fill="#CC0000"/><rect x="70" y="55" width="40" height="5" fill="#CC0000"/>' : ''}
-            ${hasCrown ? '<polygon points="80,55 90,30 100,50 110,25 120,50 130,30 140,55" fill="#FFD700" stroke="#B8860B" stroke-width="2"/>' : ''}
-            ${hasValk ? '<path d="M 75 50 L 60 20 L 85 45 Z M 145 50 L 160 20 L 135 45 Z" fill="#CCCCCC" stroke="#000"/>' : ''}
-            ${hasHorns ? '<path d="M 85 55 Q 70 20 65 30 M 135 55 Q 150 20 155 30" stroke="#FF3300" stroke-width="6" fill="none"/>' : ''}
+            ${hasBlueHair ? '<path d="M 70 47 Q 100 20 130 47 L 130 60 L 70 60 Z" fill="#0088FF" stroke="#111" stroke-width="2"/>' : ''}
+            ${hasCap ? '<rect x="70" y="35" width="60" height="15" fill="#CC0000" stroke="#111" stroke-width="2"/><rect x="60" y="45" width="40" height="5" fill="#CC0000" stroke="#111" stroke-width="2"/>' : ''}
+            ${hasCrown ? '<polygon points="70,47 80,22 90,42 100,17 110,42 120,22 130,47" fill="#FFD700" stroke="#111" stroke-width="2"/>' : ''}
+            ${hasValk ? '<path d="M 65 42 L 50 12 L 75 37 Z M 135 42 L 150 12 L 125 37 Z" fill="#E0E0E0" stroke="#111" stroke-width="2"/>' : ''}
+            ${hasHorns ? '<path d="M 75 47 Q 60 12 55 22 M 125 47 Q 140 12 145 22" stroke="#FF3300" stroke-width="7" fill="none" stroke-linecap="round"/>' : ''}
         </svg>
         `;
     }
 
-    // RENDER FUNCTIONS
     function renderSkins() {
         const container = document.getElementById('skin-container');
         container.innerHTML = "";
@@ -238,46 +198,20 @@
     function renderInventory() {
         const grid = document.getElementById('inventory-grid');
         grid.innerHTML = "";
-
-        const filtered = currentFilter === "All" ? items : items.filter(i => i.category === currentFilter);
-
-        filtered.forEach(item => {
+        items.forEach(item => {
             const isEquipped = state.equippedIds.includes(item.id);
             const card = document.createElement('div');
             card.className = `card ${isEquipped ? 'equipped' : ''}`;
             card.onclick = () => toggleEquip(item.id);
             card.innerHTML = `
                 <div class="equipped-badge">&#10003;</div>
-                <div class="card-img"><div style="width:40px; height:40px; background:${item.color}; border-radius:4px; border:1px solid #fff;"></div></div>
-                <div class="card-body">
-                    <div class="card-title">${item.name}</div>
-                </div>
+                <div class="card-img"><div style="width:36px; height:36px; background:${item.color}; border-radius:4px; border:2px solid #fff;"></div></div>
+                <div class="card-body"><div class="card-title">${item.name}</div></div>
             `;
             grid.appendChild(card);
         });
-
-        renderTray();
     }
 
-    function renderTray() {
-        const tray = document.getElementById('tray-container');
-        tray.innerHTML = "";
-        
-        if (state.equippedIds.length === 0) {
-            tray.innerHTML = `<em style="color:#888; font-size:12px;">Default Avatar</em>`;
-            return;
-        }
-
-        state.equippedIds.forEach(id => {
-            const item = items.find(i => i.id === id) || { name: `Item (${id})` };
-            const chip = document.createElement('div');
-            chip.className = 'tray-chip';
-            chip.innerHTML = `${item.name} <span onclick="toggleEquip(${id})">X</span>`;
-            tray.appendChild(chip);
-        });
-    }
-
-    // ACTIONS
     function toggleEquip(id) {
         if (state.equippedIds.includes(id)) {
             state.equippedIds = state.equippedIds.filter(i => i !== id);
@@ -294,14 +228,6 @@
         drawAvatar();
     }
 
-    function filterCategory(category, el) {
-        currentFilter = category;
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        el.classList.add('active');
-        renderInventory();
-    }
-
-    // INIT
     renderSkins();
     renderInventory();
     drawAvatar();
